@@ -11,6 +11,7 @@ export interface GatewayRequest {
   session_id?: string;
   tenant_id?: string;
   metadata?: Record<string, unknown>;
+  replay_of_trace_id?: string;
 }
 
 export interface GatewayResponse {
@@ -67,6 +68,8 @@ export async function processRequest(req: GatewayRequest): Promise<GatewayRespon
       eval_scores: JSON.stringify(emptyEval),
       blocked: 1,
       block_reason: blockReason,
+      replay_of_trace_id: req.replay_of_trace_id ?? null,
+      is_replay: req.replay_of_trace_id ? 1 : 0,
     };
 
     storage.insertTrace(traceData);
@@ -145,6 +148,8 @@ export async function processRequest(req: GatewayRequest): Promise<GatewayRespon
     eval_scores: JSON.stringify(evalScores),
     blocked: 0,
     block_reason: null,
+    replay_of_trace_id: req.replay_of_trace_id ?? null,
+    is_replay: req.replay_of_trace_id ? 1 : 0,
   };
 
   storage.insertTrace(traceData);

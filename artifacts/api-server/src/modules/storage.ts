@@ -82,6 +82,10 @@ function initSchema(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_evals_trace ON eval_results(trace_id);
     CREATE INDEX IF NOT EXISTS idx_sessions_active ON sessions(last_active DESC);
   `);
+
+  // Safe additive migrations — no-op if columns already exist
+  try { db.exec(`ALTER TABLE traces ADD COLUMN replay_of_trace_id TEXT`); } catch (_) { /* already exists */ }
+  try { db.exec(`ALTER TABLE traces ADD COLUMN is_replay INTEGER NOT NULL DEFAULT 0`); } catch (_) { /* already exists */ }
 }
 
 export function newId(): string {
@@ -106,6 +110,8 @@ export interface TraceRow {
   blocked: number;
   block_reason: string | null;
   created_at: string;
+  replay_of_trace_id?: string | null;
+  is_replay?: number;
 }
 
 export interface SecurityEventRow {
@@ -151,8 +157,9 @@ export const storage = {
     db.prepare(`
       INSERT INTO traces (id, session_id, tenant_id, model, prompt, response,
         prompt_tokens, completion_tokens, total_tokens, cost, latency_ms,
-        routing_decision, security_result, eval_scores, blocked, block_reason)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        routing_decision, security_result, eval_scores, blocked, block_reason,
+        replay_of_trace_id, is_replay)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       trace.id, trace.session_id, trace.tenant_id, trace.model,
       trace.prompt, trace.response,
@@ -160,6 +167,7 @@ export const storage = {
       trace.cost, trace.latency_ms,
       trace.routing_decision, trace.security_result, trace.eval_scores,
       trace.blocked ? 1 : 0, trace.block_reason ?? null,
+      trace.replay_of_trace_id ?? null, trace.is_replay ?? 0,
     );
   },
 

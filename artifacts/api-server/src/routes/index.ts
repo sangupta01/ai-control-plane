@@ -10,12 +10,14 @@ import demoRouter from "./v1/demo.js";
 import policiesRouter from "./v1/policies.js";
 import costRouter from "./v1/cost.js";
 import redteamRouter from "./v1/redteam.js";
+import replayRouter from "./v1/replay.js";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
 router.use(chatRouter);
 router.use(tracesRouter);
+router.use(replayRouter);
 router.use(metricsRouter);
 router.use(securityRouter);
 router.use(evalsRouter);
