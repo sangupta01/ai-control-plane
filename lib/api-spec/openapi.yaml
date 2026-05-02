@@ -3,20 +3,34 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: AI Control Plane - Unified LLM Gateway + Observability Platform
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: chat
+    description: AI Gateway chat endpoint
+  - name: traces
+    description: LLM trace observability
+  - name: metrics
+    description: Platform metrics
+  - name: security
+    description: Security events and guardrails
+  - name: evals
+    description: LLM evaluation scores
+  - name: sessions
+    description: Session management
+  - name: demo
+    description: Demo runner
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +38,182 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /v1/chat:
+    post:
+      operationId: chat
+      tags: [chat]
+      summary: Unified AI chat endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          description: Chat response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /v1/traces:
+    get:
+      operationId: getTraces
+      tags: [traces]
+      summary: List LLM traces
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: session_id
+          in: query
+          schema:
+            type: string
+        - name: model
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of traces
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TraceListResponse"
+
+  /v1/traces/{id}:
+    get:
+      operationId: getTrace
+      tags: [traces]
+      summary: Get a single trace
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Trace detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trace"
+        "404":
+          description: Not found
+
+  /v1/metrics/summary:
+    get:
+      operationId: getMetricsSummary
+      tags: [metrics]
+      summary: Get platform metrics summary
+      responses:
+        "200":
+          description: Metrics summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricsSummary"
+
+  /v1/security/events:
+    get:
+      operationId: getSecurityEvents
+      tags: [security]
+      summary: List security events
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high, critical]
+      responses:
+        "200":
+          description: Security events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityEventListResponse"
+
+  /v1/evals:
+    get:
+      operationId: getEvals
+      tags: [evals]
+      summary: List evaluation scores
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: trace_id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Evaluation results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvalListResponse"
+
+  /v1/sessions:
+    get:
+      operationId: getSessions
+      tags: [sessions]
+      summary: List active sessions
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: Sessions list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionListResponse"
+
+  /v1/demo/run:
+    post:
+      operationId: runDemo
+      tags: [demo]
+      summary: Run demo scenarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DemoRunRequest"
+      responses:
+        "200":
+          description: Demo results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DemoRunResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +221,404 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+        uptime:
+          type: number
+        version:
+          type: string
+      required: [status]
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+      required: [error]
+
+    ChatRequest:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+        model:
+          type: string
+          default: mock-gpt-4
+        session_id:
+          type: string
+        tenant_id:
+          type: string
+          default: default
+        stream:
+          type: boolean
+          default: false
+        metadata:
+          type: object
+          additionalProperties: true
+      required: [messages]
+
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [system, user, assistant]
+        content:
+          type: string
+      required: [role, content]
+
+    ChatResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        trace_id:
+          type: string
+        session_id:
+          type: string
+        model:
+          type: string
+        message:
+          $ref: "#/components/schemas/ChatMessage"
+        usage:
+          $ref: "#/components/schemas/TokenUsage"
+        cost:
+          type: number
+        latency_ms:
+          type: number
+        routing_decision:
+          $ref: "#/components/schemas/RoutingDecision"
+        security_result:
+          $ref: "#/components/schemas/SecurityResult"
+        eval_scores:
+          $ref: "#/components/schemas/EvalScores"
+        blocked:
+          type: boolean
+        block_reason:
+          type: string
+      required: [id, trace_id, session_id, model, message, usage, cost, latency_ms, blocked]
+
+    TokenUsage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+      required: [prompt_tokens, completion_tokens, total_tokens]
+
+    RoutingDecision:
+      type: object
+      properties:
+        selected_model:
+          type: string
+        reason:
+          type: string
+        session_affinity_hit:
+          type: boolean
+        effective_cost:
+          type: number
+        cache_preserved:
+          type: boolean
+        model_switches:
+          type: integer
+      required: [selected_model, reason, session_affinity_hit, effective_cost]
+
+    SecurityResult:
+      type: object
+      properties:
+        passed:
+          type: boolean
+        findings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecurityFinding"
+      required: [passed, findings]
+
+    SecurityFinding:
+      type: object
+      properties:
+        scanner:
+          type: string
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        action:
+          type: string
+          enum: [allow, flag, block]
+        reason:
+          type: string
+        matched:
+          type: string
+      required: [scanner, severity, action, reason]
+
+    EvalScores:
+      type: object
+      properties:
+        relevance:
+          type: number
+        safety:
+          type: number
+        hallucination_risk:
+          type: number
+        groundedness:
+          type: number
+        overall:
+          type: number
+      required: [relevance, safety, hallucination_risk, groundedness, overall]
+
+    Trace:
+      type: object
+      properties:
+        id:
+          type: string
+        session_id:
+          type: string
+        tenant_id:
+          type: string
+        model:
+          type: string
+        prompt:
+          type: string
+        response:
+          type: string
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+        cost:
+          type: number
+        latency_ms:
+          type: number
+        routing_decision:
+          type: object
+          additionalProperties: true
+        security_result:
+          type: object
+          additionalProperties: true
+        eval_scores:
+          type: object
+          additionalProperties: true
+        blocked:
+          type: boolean
+        block_reason:
+          type: string
+        created_at:
+          type: string
+      required: [id, session_id, tenant_id, model, prompt, response, prompt_tokens, completion_tokens, total_tokens, cost, latency_ms, blocked, created_at]
+
+    TraceListResponse:
+      type: object
+      properties:
+        traces:
+          type: array
+          items:
+            $ref: "#/components/schemas/Trace"
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+      required: [traces, total, limit, offset]
+
+    MetricsSummary:
+      type: object
+      properties:
+        total_requests:
+          type: integer
+        total_tokens:
+          type: integer
+        total_cost:
+          type: number
+        avg_latency_ms:
+          type: number
+        requests_per_model:
+          type: object
+          additionalProperties:
+            type: integer
+        requests_per_tenant:
+          type: object
+          additionalProperties:
+            type: integer
+        security_events_count:
+          type: integer
+        blocked_requests:
+          type: integer
+        avg_eval_score:
+          type: number
+        session_affinity_rate:
+          type: number
+        requests_last_24h:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimeSeriesPoint"
+      required: [total_requests, total_tokens, total_cost, avg_latency_ms, requests_per_model, requests_per_tenant, security_events_count, blocked_requests, avg_eval_score, session_affinity_rate, requests_last_24h]
+
+    TimeSeriesPoint:
+      type: object
+      properties:
+        hour:
+          type: string
+        count:
+          type: integer
+        tokens:
+          type: integer
+        cost:
+          type: number
+      required: [hour, count, tokens, cost]
+
+    SecurityEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        trace_id:
+          type: string
+        session_id:
+          type: string
+        scanner:
+          type: string
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        action:
+          type: string
+          enum: [allow, flag, block]
+        reason:
+          type: string
+        matched:
+          type: string
+        prompt_excerpt:
+          type: string
+        created_at:
+          type: string
+      required: [id, trace_id, session_id, scanner, severity, action, reason, created_at]
+
+    SecurityEventListResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecurityEvent"
+        total:
+          type: integer
+      required: [events, total]
+
+    EvalResult:
+      type: object
+      properties:
+        id:
+          type: string
+        trace_id:
+          type: string
+        relevance:
+          type: number
+        safety:
+          type: number
+        hallucination_risk:
+          type: number
+        groundedness:
+          type: number
+        overall:
+          type: number
+        created_at:
+          type: string
+      required: [id, trace_id, relevance, safety, hallucination_risk, groundedness, overall, created_at]
+
+    EvalListResponse:
+      type: object
+      properties:
+        evals:
+          type: array
+          items:
+            $ref: "#/components/schemas/EvalResult"
+        total:
+          type: integer
+      required: [evals, total]
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+        tenant_id:
+          type: string
+        model:
+          type: string
+        request_count:
+          type: integer
+        total_tokens:
+          type: integer
+        total_cost:
+          type: number
+        model_switches:
+          type: integer
+        affinity_hits:
+          type: integer
+        created_at:
+          type: string
+        last_active:
+          type: string
+      required: [id, tenant_id, model, request_count, total_tokens, total_cost, model_switches, affinity_hits, created_at, last_active]
+
+    SessionListResponse:
+      type: object
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Session"
+        total:
+          type: integer
+      required: [sessions, total]
+
+    DemoRunRequest:
+      type: object
+      properties:
+        scenarios:
+          type: array
+          items:
+            type: string
+          description: Scenario names to run. If empty, runs all.
+
+    DemoScenarioResult:
+      type: object
+      properties:
+        scenario:
+          type: string
+        status:
+          type: string
+          enum: [passed, failed, blocked]
+        trace_id:
+          type: string
+        description:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+      required: [scenario, status, description]
+
+    DemoRunResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/DemoScenarioResult"
+        total:
+          type: integer
+        passed:
+          type: integer
+        failed:
+          type: integer
+        blocked:
+          type: integer
+      required: [results, total, passed, failed, blocked]

@@ -1,0 +1,491 @@
+# 🚀 AI CONTROL PLANE + FULL LLM OBSERVABILITY PLATFORM
+
+## (MULTI-AGENT AUTONOMOUS BUILD PROMPT)
+
+---
+
+# ROLE
+
+Act as a **Principal / Architect (L7 IC)** building a production-grade AI platform.
+
+You are NOT a single agent.
+You are a **multi-agent system** with specialized roles:
+
+* 🧠 Planner Agent (architecture + decomposition)
+* ⚙️ Builder Agents (parallel implementation)
+* 🔍 Reviewer Agent (code + security + correctness)
+* 🧪 Test Agent (validation + harness)
+* 📊 Demo Agent (demo + scripts + UX)
+
+You must coordinate work across agents while minimizing context sharing.
+
+---
+
+# ⚠️ CORE EXECUTION PRINCIPLE (CRITICAL)
+
+### CONTEXT ROT IS YOUR BIGGEST RISK
+
+You have:
+
+* Unlimited tokens
+* BUT limited effective context window
+
+Therefore:
+
+### You MUST:
+
+* Split work into **independent modules**
+* Use **file-based communication**
+* Avoid long conversational context
+* Reload ONLY required files per task
+* Persist all outputs to disk
+* Never rely on memory of previous steps
+
+---
+
+# 🎯 PROJECT (FIXED)
+
+Build:
+
+# 👉 **AI CONTROL PLANE PLATFORM**
+
+A unified system combining:
+
+### 1. AI Gateway
+
+* Unified API (`/v1/chat`)
+* Model routing
+* Cost tracking
+* Session-aware routing
+* Policy enforcement
+
+### 2. Full LLM Observability
+
+* prompts/responses
+* tokens
+* latency breakdown
+* traces
+* session correlation
+* tool/retrieval awareness (basic)
+
+### 3. Security Guardrails
+
+* PII detection
+* secret detection
+* prompt injection detection
+* jailbreak detection
+* policy engine (allow/flag/block)
+
+### 4. Evaluation System
+
+* relevance
+* safety
+* hallucination risk
+* groundedness
+* overall score
+
+### 5. Demo + Test Harness
+
+* synthetic workloads
+* attack scenarios
+* validation scripts
+* automated tests
+
+---
+
+# 🧠 DIFFERENTIATOR (MANDATORY)
+
+## SESSION-AWARE ROUTING
+
+You MUST implement:
+
+* Sticky session routing
+* Avoid model switching mid-session
+* Cache-preservation-aware routing
+
+Routing decision must consider:
+
+effective_cost =
+model_cost
+
+* cache_miss_penalty
+* latency_penalty
+
+Must track:
+
+* model switches
+* switch reasons
+* estimated cache preserved
+* session affinity hit rate
+
+---
+
+# 🏗️ MULTI-AGENT EXECUTION PLAN
+
+## PHASE 0 — PLANNER AGENT
+
+Create:
+
+```text
+.artifacts/
+  assumptions.md
+  requirements.md
+  architecture.md
+  module_plan.md
+```
+
+Define modules:
+
+```text
+modules/
+  gateway/
+  routing/
+  session/
+  providers/
+  security/
+  observability/
+  evaluation/
+  cost/
+  storage/
+  api/
+  demo/
+  tests/
+  dashboard/
+```
+
+Each module must be independently buildable.
+
+---
+
+## PHASE 1 — PARALLEL BUILD (CRITICAL)
+
+Spawn parallel builder agents:
+
+| Agent | Module                  |
+| ----- | ----------------------- |
+| A     | API + Gateway           |
+| B     | Routing + Session       |
+| C     | Security                |
+| D     | Observability + Storage |
+| E     | Evaluation              |
+| F     | Cost                    |
+| G     | Demo + Test Harness     |
+
+Each agent:
+
+* works independently
+* writes to its module
+* avoids touching unrelated files
+
+---
+
+## PHASE 2 — INTEGRATION AGENT
+
+* connect modules
+* resolve interfaces
+* fix mismatches
+* ensure end-to-end flow works
+
+---
+
+## PHASE 3 — TEST AGENT
+
+Build:
+
+### Unit Tests
+
+* routing
+* session affinity
+* token estimation
+* cost calc
+* scanners
+* evaluators
+
+### Integration Tests
+
+* `/v1/chat`
+* security block
+* trace persistence
+* metrics
+* demo run
+
+### Demo Validation
+
+```bash
+make validate-demo
+```
+
+---
+
+## PHASE 4 — REVIEW AGENT
+
+Validate:
+
+* minimal diffs
+* no secrets
+* correct logging
+* correct routing logic
+* security correctness
+* test coverage
+
+---
+
+## PHASE 5 — DEMO AGENT
+
+Create:
+
+```text
+docs/
+  DEMO_RUNBOOK.md
+  DEMO_SCRIPT.md
+```
+
+AND implement:
+
+```http
+POST /v1/demo/run
+```
+
+---
+
+# ⚙️ CORE SYSTEM DESIGN
+
+## FLOW
+
+Client → Gateway →
+→ Security (pre-check)
+→ Routing (session-aware)
+→ Provider
+→ Security (post-check)
+→ Evaluation
+→ Observability
+→ Storage
+
+---
+
+# 🧩 REQUIRED FEATURES
+
+## API
+
+```http
+POST /v1/chat
+GET  /v1/traces
+GET  /v1/traces/{id}
+GET  /v1/metrics/summary
+GET  /v1/security/events
+GET  /v1/evals
+GET  /v1/sessions
+POST /v1/demo/run
+GET  /health
+```
+
+---
+
+## PROVIDERS
+
+### REQUIRED:
+
+* Mock provider (deterministic)
+
+### OPTIONAL:
+
+* real provider via env var
+
+---
+
+## STORAGE
+
+* SQLite (required)
+* structured schema
+* trace-centric design
+
+---
+
+## SECURITY
+
+Implement scanners:
+
+* PII
+* secret
+* prompt injection
+* jailbreak
+* data exfiltration
+
+Each returns:
+
+* severity
+* action
+* reason
+
+---
+
+## OBSERVABILITY
+
+Capture:
+
+* prompt
+* response
+* tokens
+* cost
+* latency breakdown
+* routing decision
+* security findings
+* eval scores
+
+---
+
+## EVALUATION
+
+Return:
+
+* relevance
+* safety
+* hallucination
+* groundedness
+* overall score
+
+---
+
+## COST
+
+Track:
+
+* per request
+* per session
+* per tenant
+* per model
+
+---
+
+# 🎬 DEMO REQUIREMENTS (MANDATORY)
+
+System MUST support:
+
+```bash
+make demo
+```
+
+OR
+
+```bash
+python scripts/run_demo.py
+```
+
+Must simulate:
+
+* normal request
+* prompt injection
+* PII
+* secret leak
+* expensive prompt
+* multi-tenant usage
+* evaluation scoring
+* session-aware routing
+
+---
+
+# 🧪 TESTING (MANDATORY)
+
+Must support:
+
+```bash
+make test
+```
+
+Must include:
+
+* unit tests
+* integration tests
+* demo validation
+
+---
+
+# 📊 DASHBOARD
+
+Must show:
+
+* requests
+* tokens
+* cost
+* latency
+* security events
+* eval scores
+* session affinity stats
+
+---
+
+# 📦 PROJECT STRUCTURE
+
+```text
+app/
+modules/
+tests/
+scripts/
+docs/
+.artifacts/
+Dockerfile
+docker-compose.yml (optional)
+Makefile
+```
+
+---
+
+# 💰 COST + CONTEXT STRATEGY
+
+* do NOT reuse large prompts unnecessarily
+* keep module contexts small
+* reload only required files
+* avoid full-repo scans
+* prefer targeted edits
+
+---
+
+# 🚀 EXECUTION RULES
+
+* build core first
+* parallelize aggressively
+* avoid over-design
+* validate continuously
+* log decisions in `.artifacts/`
+* if stuck → reduce scope, continue
+
+---
+
+# 🏁 FINAL DELIVERABLE
+
+Must include:
+
+* working API
+* session-aware routing
+* full observability
+* security checks
+* evaluation
+* test suite
+* demo runner
+* dashboard
+* docs
+
+---
+
+# 🔥 FINAL PRINCIPLE
+
+Do NOT build a toy.
+
+Build something that looks like:
+
+👉 “Datadog + Palo Alto AI Gateway + LangSmith — in one system”
+
+---
+
+# BEGIN
+
+Start with:
+
+1. Planner Agent → create artifacts + module plan
+2. Spawn parallel builder agents
+3. Persist outputs to files
+4. Integrate
+5. Test
+6. Demo
+
+Proceed autonomously.
