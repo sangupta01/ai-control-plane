@@ -273,6 +273,138 @@ export interface DemoRunResponse {
   blocked: number;
 }
 
+export type PolicyRuleAction =
+  (typeof PolicyRuleAction)[keyof typeof PolicyRuleAction];
+
+export const PolicyRuleAction = {
+  allow: "allow",
+  flag: "flag",
+  block: "block",
+  redact: "redact",
+} as const;
+
+export interface PolicyRule {
+  id: string;
+  scanner: string;
+  pattern_name?: string;
+  severity?: string;
+  action: PolicyRuleAction;
+  description: string;
+  enabled: boolean;
+}
+
+export interface PolicyListResponse {
+  version: string;
+  policy_set: string;
+  description: string;
+  rules: PolicyRule[];
+  total: number;
+  enabled: number;
+}
+
+export interface TopSession {
+  session_id: string;
+  tenant_id: string;
+  model: string;
+  total_cost: number;
+  total_tokens: number;
+  request_count: number;
+}
+
+export interface TopTenant {
+  tenant_id: string;
+  total_cost: number;
+  total_tokens: number;
+  request_count: number;
+  avg_cost_per_request: number;
+}
+
+export interface TopPrompt {
+  trace_id: string;
+  prompt_excerpt: string;
+  model: string;
+  cost: number;
+  total_tokens: number;
+  tenant_id: string;
+  created_at: string;
+}
+
+export interface RoutingOptimization {
+  current_model: string;
+  suggested_model: string;
+  potential_savings_pct: number;
+  reason: string;
+}
+
+export interface CostInsightsResponse {
+  top_sessions: TopSession[];
+  top_tenants: TopTenant[];
+  top_prompts: TopPrompt[];
+  model_switch_count: number;
+  estimated_cache_preserved: number;
+  estimated_cache_miss_cost: number;
+  total_wasted_cost: number;
+  suggested_optimizations: RoutingOptimization[];
+  generated_at: string;
+}
+
+export interface RedTeamScenario {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  attack_prompt: string;
+  expected_blocked: boolean;
+  severity: string;
+}
+
+export type RedTeamResultStatus =
+  (typeof RedTeamResultStatus)[keyof typeof RedTeamResultStatus];
+
+export const RedTeamResultStatus = {
+  passed: "passed",
+  failed: "failed",
+  error: "error",
+} as const;
+
+export interface RedTeamResult {
+  id: string;
+  run_id: string;
+  scenario_id: string;
+  scenario_name: string;
+  category: string;
+  status: RedTeamResultStatus;
+  expected_blocked: boolean;
+  actual_blocked: boolean;
+  correct: boolean;
+  trace_id?: string;
+  block_reason?: string;
+  security_findings: number;
+  latency_ms: number;
+  error?: string;
+}
+
+export interface RedTeamRunRequest {
+  /** Scenario IDs or names to run. If empty, runs all. */
+  scenarios?: string[];
+}
+
+export interface RedTeamRunResponse {
+  run_id: string;
+  total: number;
+  passed: number;
+  failed: number;
+  errors: number;
+  pass_rate: number;
+  results: RedTeamResult[];
+  created_at: string;
+}
+
+export interface RedTeamScenariosResponse {
+  scenarios: RedTeamScenario[];
+  total: number;
+}
+
 export type GetTracesParams = {
   limit?: number;
   offset?: number;

@@ -1,0 +1,146 @@
+# AI Control Plane — Policy-as-Code Configuration
+# Rules define how each scanner's findings are handled.
+# action: allow | flag | block | redact
+# Policies override the default heuristic actions from the security scanner.
+
+version: "1.0"
+policy_set: "default"
+description: "Default production policy set"
+
+rules:
+  - id: "pii-ssn-block"
+    scanner: "pii"
+    pattern_name: "SSN"
+    severity: "critical"
+    action: "block"
+    description: "Always block requests containing Social Security Numbers"
+    enabled: true
+
+  - id: "pii-credit-card-block"
+    scanner: "pii"
+    pattern_name: "Credit Card"
+    severity: "critical"
+    action: "block"
+    description: "Always block requests containing credit card numbers"
+    enabled: true
+
+  - id: "pii-email-flag"
+    scanner: "pii"
+    pattern_name: "Email"
+    severity: "medium"
+    action: "flag"
+    description: "Flag but allow requests containing email addresses"
+    enabled: true
+
+  - id: "pii-phone-flag"
+    scanner: "pii"
+    pattern_name: "Phone"
+    severity: "medium"
+    action: "flag"
+    description: "Flag but allow requests containing phone numbers"
+    enabled: true
+
+  - id: "pii-ip-allow"
+    scanner: "pii"
+    pattern_name: "IP Address"
+    severity: "low"
+    action: "allow"
+    description: "Allow requests containing IP addresses (common in technical queries)"
+    enabled: true
+
+  - id: "pii-dob-block"
+    scanner: "pii"
+    pattern_name: "Date of Birth"
+    severity: "high"
+    action: "block"
+    description: "Block requests containing dates of birth"
+    enabled: true
+
+  - id: "secrets-aws-block"
+    scanner: "secrets"
+    pattern_name: "AWS Access Key"
+    severity: "critical"
+    action: "block"
+    description: "Always block AWS access keys — critical secret exposure"
+    enabled: true
+
+  - id: "secrets-github-block"
+    scanner: "secrets"
+    pattern_name: "GitHub Token"
+    severity: "critical"
+    action: "block"
+    description: "Always block GitHub tokens"
+    enabled: true
+
+  - id: "secrets-openai-block"
+    scanner: "secrets"
+    pattern_name: "OpenAI Key"
+    severity: "critical"
+    action: "block"
+    description: "Always block OpenAI API keys"
+    enabled: true
+
+  - id: "secrets-bearer-flag"
+    scanner: "secrets"
+    pattern_name: "Bearer Token"
+    severity: "high"
+    action: "block"
+    description: "Block requests containing bearer tokens"
+    enabled: true
+
+  - id: "secrets-generic-flag"
+    scanner: "secrets"
+    pattern_name: "Generic API Key"
+    severity: "high"
+    action: "flag"
+    description: "Flag generic API key patterns for review"
+    enabled: true
+
+  - id: "injection-critical-block"
+    scanner: "prompt_injection"
+    severity: "critical"
+    action: "block"
+    description: "Block all critical-severity prompt injection attempts"
+    enabled: true
+
+  - id: "injection-high-block"
+    scanner: "prompt_injection"
+    severity: "high"
+    action: "block"
+    description: "Block high-severity prompt injection attempts"
+    enabled: true
+
+  - id: "injection-medium-flag"
+    scanner: "prompt_injection"
+    severity: "medium"
+    action: "flag"
+    description: "Flag medium-severity injection attempts for review"
+    enabled: true
+
+  - id: "jailbreak-all-block"
+    scanner: "jailbreak"
+    severity: "critical"
+    action: "block"
+    description: "Block all jailbreak attempts"
+    enabled: true
+
+  - id: "jailbreak-high-block"
+    scanner: "jailbreak"
+    severity: "high"
+    action: "block"
+    description: "Block high-severity jailbreak attempts"
+    enabled: true
+
+  - id: "exfil-high-block"
+    scanner: "data_exfiltration"
+    severity: "high"
+    action: "block"
+    description: "Block bulk data exfiltration attempts"
+    enabled: true
+
+  - id: "exfil-medium-flag"
+    scanner: "data_exfiltration"
+    severity: "medium"
+    action: "flag"
+    description: "Flag potential data exfiltration for review"
+    enabled: true

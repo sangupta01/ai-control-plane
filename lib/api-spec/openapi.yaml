@@ -24,6 +24,12 @@ tags:
     description: Session management
   - name: demo
     description: Demo runner
+  - name: policies
+    description: Policy-as-Code management
+  - name: cost
+    description: Cost optimization insights
+  - name: redteam
+    description: Red team adversarial testing
 
 paths:
   /healthz:
@@ -213,6 +219,63 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DemoRunResponse"
+
+  /v1/policies:
+    get:
+      operationId: getPolicies
+      tags: [policies]
+      summary: Get active policy rules
+      responses:
+        "200":
+          description: Policy rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyListResponse"
+
+  /v1/cost/insights:
+    get:
+      operationId: getCostInsights
+      tags: [cost]
+      summary: Get cost optimization insights
+      responses:
+        "200":
+          description: Cost insights
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CostInsightsResponse"
+
+  /v1/redteam/run:
+    post:
+      operationId: runRedTeam
+      tags: [redteam]
+      summary: Run red team adversarial test suite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RedTeamRunRequest"
+      responses:
+        "200":
+          description: Red team results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RedTeamRunResponse"
+
+  /v1/redteam/scenarios:
+    get:
+      operationId: getRedTeamScenarios
+      tags: [redteam]
+      summary: List available red team scenarios
+      responses:
+        "200":
+          description: Scenarios list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RedTeamScenariosResponse"
 
 components:
   schemas:
@@ -622,3 +685,233 @@ components:
         blocked:
           type: integer
       required: [results, total, passed, failed, blocked]
+
+    PolicyRule:
+      type: object
+      properties:
+        id:
+          type: string
+        scanner:
+          type: string
+        pattern_name:
+          type: string
+        severity:
+          type: string
+        action:
+          type: string
+          enum: [allow, flag, block, redact]
+        description:
+          type: string
+        enabled:
+          type: boolean
+      required: [id, scanner, action, description, enabled]
+
+    PolicyListResponse:
+      type: object
+      properties:
+        version:
+          type: string
+        policy_set:
+          type: string
+        description:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: "#/components/schemas/PolicyRule"
+        total:
+          type: integer
+        enabled:
+          type: integer
+      required: [version, policy_set, description, rules, total, enabled]
+
+    TopSession:
+      type: object
+      properties:
+        session_id:
+          type: string
+        tenant_id:
+          type: string
+        model:
+          type: string
+        total_cost:
+          type: number
+        total_tokens:
+          type: integer
+        request_count:
+          type: integer
+      required: [session_id, tenant_id, model, total_cost, total_tokens, request_count]
+
+    TopTenant:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+        total_cost:
+          type: number
+        total_tokens:
+          type: integer
+        request_count:
+          type: integer
+        avg_cost_per_request:
+          type: number
+      required: [tenant_id, total_cost, total_tokens, request_count, avg_cost_per_request]
+
+    TopPrompt:
+      type: object
+      properties:
+        trace_id:
+          type: string
+        prompt_excerpt:
+          type: string
+        model:
+          type: string
+        cost:
+          type: number
+        total_tokens:
+          type: integer
+        tenant_id:
+          type: string
+        created_at:
+          type: string
+      required: [trace_id, prompt_excerpt, model, cost, total_tokens, tenant_id, created_at]
+
+    RoutingOptimization:
+      type: object
+      properties:
+        current_model:
+          type: string
+        suggested_model:
+          type: string
+        potential_savings_pct:
+          type: number
+        reason:
+          type: string
+      required: [current_model, suggested_model, potential_savings_pct, reason]
+
+    CostInsightsResponse:
+      type: object
+      properties:
+        top_sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/TopSession"
+        top_tenants:
+          type: array
+          items:
+            $ref: "#/components/schemas/TopTenant"
+        top_prompts:
+          type: array
+          items:
+            $ref: "#/components/schemas/TopPrompt"
+        model_switch_count:
+          type: integer
+        estimated_cache_preserved:
+          type: number
+        estimated_cache_miss_cost:
+          type: number
+        total_wasted_cost:
+          type: number
+        suggested_optimizations:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoutingOptimization"
+        generated_at:
+          type: string
+      required: [top_sessions, top_tenants, top_prompts, model_switch_count, estimated_cache_preserved, estimated_cache_miss_cost, total_wasted_cost, suggested_optimizations, generated_at]
+
+    RedTeamScenario:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        attack_prompt:
+          type: string
+        expected_blocked:
+          type: boolean
+        severity:
+          type: string
+      required: [id, name, category, description, attack_prompt, expected_blocked, severity]
+
+    RedTeamResult:
+      type: object
+      properties:
+        id:
+          type: string
+        run_id:
+          type: string
+        scenario_id:
+          type: string
+        scenario_name:
+          type: string
+        category:
+          type: string
+        status:
+          type: string
+          enum: [passed, failed, error]
+        expected_blocked:
+          type: boolean
+        actual_blocked:
+          type: boolean
+        correct:
+          type: boolean
+        trace_id:
+          type: string
+        block_reason:
+          type: string
+        security_findings:
+          type: integer
+        latency_ms:
+          type: number
+        error:
+          type: string
+      required: [id, run_id, scenario_id, scenario_name, category, status, expected_blocked, actual_blocked, correct, security_findings, latency_ms]
+
+    RedTeamRunRequest:
+      type: object
+      properties:
+        scenarios:
+          type: array
+          items:
+            type: string
+          description: Scenario IDs or names to run. If empty, runs all.
+
+    RedTeamRunResponse:
+      type: object
+      properties:
+        run_id:
+          type: string
+        total:
+          type: integer
+        passed:
+          type: integer
+        failed:
+          type: integer
+        errors:
+          type: integer
+        pass_rate:
+          type: number
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/RedTeamResult"
+        created_at:
+          type: string
+      required: [run_id, total, passed, failed, errors, pass_rate, results, created_at]
+
+    RedTeamScenariosResponse:
+      type: object
+      properties:
+        scenarios:
+          type: array
+          items:
+            $ref: "#/components/schemas/RedTeamScenario"
+        total:
+          type: integer
+      required: [scenarios, total]

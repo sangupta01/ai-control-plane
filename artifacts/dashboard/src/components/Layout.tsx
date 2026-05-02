@@ -7,6 +7,9 @@ import {
   BarChart3,
   PlayCircle,
   Cpu,
+  FileCode2,
+  DollarSign,
+  Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +20,9 @@ const NAV_ITEMS = [
   { href: "/sessions", label: "Sessions", icon: Users },
   { href: "/evals", label: "Evaluations", icon: BarChart3 },
   { href: "/demo", label: "Demo Runner", icon: PlayCircle },
+  { href: "/policies", label: "Policies", icon: FileCode2 },
+  { href: "/cost", label: "Cost Insights", icon: DollarSign },
+  { href: "/redteam", label: "Red Team", icon: Target },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -62,7 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
         {/* Footer */}
         <div className="px-4 py-3 border-t border-sidebar-border">
-          <div className="text-[10px] text-muted-foreground font-mono">v1.0.0 — mock providers</div>
+          <div className="text-[10px] text-muted-foreground font-mono">v1.1.0 — mock providers</div>
         </div>
       </aside>
 

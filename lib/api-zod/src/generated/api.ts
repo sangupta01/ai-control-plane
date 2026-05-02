@@ -287,3 +287,130 @@ export const RunDemoResponse = zod.object({
   failed: zod.number(),
   blocked: zod.number(),
 });
+
+/**
+ * @summary Get active policy rules
+ */
+export const GetPoliciesResponse = zod.object({
+  version: zod.string(),
+  policy_set: zod.string(),
+  description: zod.string(),
+  rules: zod.array(
+    zod.object({
+      id: zod.string(),
+      scanner: zod.string(),
+      pattern_name: zod.string().optional(),
+      severity: zod.string().optional(),
+      action: zod.enum(["allow", "flag", "block", "redact"]),
+      description: zod.string(),
+      enabled: zod.boolean(),
+    }),
+  ),
+  total: zod.number(),
+  enabled: zod.number(),
+});
+
+/**
+ * @summary Get cost optimization insights
+ */
+export const GetCostInsightsResponse = zod.object({
+  top_sessions: zod.array(
+    zod.object({
+      session_id: zod.string(),
+      tenant_id: zod.string(),
+      model: zod.string(),
+      total_cost: zod.number(),
+      total_tokens: zod.number(),
+      request_count: zod.number(),
+    }),
+  ),
+  top_tenants: zod.array(
+    zod.object({
+      tenant_id: zod.string(),
+      total_cost: zod.number(),
+      total_tokens: zod.number(),
+      request_count: zod.number(),
+      avg_cost_per_request: zod.number(),
+    }),
+  ),
+  top_prompts: zod.array(
+    zod.object({
+      trace_id: zod.string(),
+      prompt_excerpt: zod.string(),
+      model: zod.string(),
+      cost: zod.number(),
+      total_tokens: zod.number(),
+      tenant_id: zod.string(),
+      created_at: zod.string(),
+    }),
+  ),
+  model_switch_count: zod.number(),
+  estimated_cache_preserved: zod.number(),
+  estimated_cache_miss_cost: zod.number(),
+  total_wasted_cost: zod.number(),
+  suggested_optimizations: zod.array(
+    zod.object({
+      current_model: zod.string(),
+      suggested_model: zod.string(),
+      potential_savings_pct: zod.number(),
+      reason: zod.string(),
+    }),
+  ),
+  generated_at: zod.string(),
+});
+
+/**
+ * @summary Run red team adversarial test suite
+ */
+export const RunRedTeamBody = zod.object({
+  scenarios: zod
+    .array(zod.string())
+    .optional()
+    .describe("Scenario IDs or names to run. If empty, runs all."),
+});
+
+export const RunRedTeamResponse = zod.object({
+  run_id: zod.string(),
+  total: zod.number(),
+  passed: zod.number(),
+  failed: zod.number(),
+  errors: zod.number(),
+  pass_rate: zod.number(),
+  results: zod.array(
+    zod.object({
+      id: zod.string(),
+      run_id: zod.string(),
+      scenario_id: zod.string(),
+      scenario_name: zod.string(),
+      category: zod.string(),
+      status: zod.enum(["passed", "failed", "error"]),
+      expected_blocked: zod.boolean(),
+      actual_blocked: zod.boolean(),
+      correct: zod.boolean(),
+      trace_id: zod.string().optional(),
+      block_reason: zod.string().optional(),
+      security_findings: zod.number(),
+      latency_ms: zod.number(),
+      error: zod.string().optional(),
+    }),
+  ),
+  created_at: zod.string(),
+});
+
+/**
+ * @summary List available red team scenarios
+ */
+export const GetRedTeamScenariosResponse = zod.object({
+  scenarios: zod.array(
+    zod.object({
+      id: zod.string(),
+      name: zod.string(),
+      category: zod.string(),
+      description: zod.string(),
+      attack_prompt: zod.string(),
+      expected_blocked: zod.boolean(),
+      severity: zod.string(),
+    }),
+  ),
+  total: zod.number(),
+});

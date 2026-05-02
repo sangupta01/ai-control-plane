@@ -10,6 +10,9 @@ import Security from "@/pages/Security";
 import Sessions from "@/pages/Sessions";
 import Evals from "@/pages/Evals";
 import Demo from "@/pages/Demo";
+import Policies from "@/pages/Policies";
+import CostInsights from "@/pages/CostInsights";
+import RedTeam from "@/pages/RedTeam";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +33,9 @@ function Router() {
         <Route path="/sessions" component={Sessions} />
         <Route path="/evals" component={Evals} />
         <Route path="/demo" component={Demo} />
+        <Route path="/policies" component={Policies} />
+        <Route path="/cost" component={CostInsights} />
+        <Route path="/redteam" component={RedTeam} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

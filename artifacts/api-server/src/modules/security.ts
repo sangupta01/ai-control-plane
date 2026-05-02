@@ -1,3 +1,5 @@
+import { applyPolicies } from "./policies.js";
+
 export type Severity = "low" | "medium" | "high" | "critical";
 export type Action = "allow" | "flag" | "block";
 
@@ -141,7 +143,8 @@ export function runSecurityScan(messages: Array<{ role: string; content: string 
     .map(m => m.content)
     .join("\n");
 
-  const findings = scanText(userText);
+  const rawFindings = scanText(userText);
+  const findings = applyPolicies(rawFindings);
   const blocked = findings.some(f => f.action === "block");
 
   return {
@@ -151,7 +154,8 @@ export function runSecurityScan(messages: Array<{ role: string; content: string 
 }
 
 export function runOutputSecurityScan(response: string): SecurityResult {
-  const findings = scanText(response);
+  const rawFindings = scanText(response);
+  const findings = applyPolicies(rawFindings);
   const blocked = findings.some(f => f.action === "block");
   return { passed: !blocked, findings };
 }

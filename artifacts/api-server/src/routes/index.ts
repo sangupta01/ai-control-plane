@@ -7,6 +7,9 @@ import securityRouter from "./v1/security.js";
 import evalsRouter from "./v1/evals.js";
 import sessionsRouter from "./v1/sessions.js";
 import demoRouter from "./v1/demo.js";
+import policiesRouter from "./v1/policies.js";
+import costRouter from "./v1/cost.js";
+import redteamRouter from "./v1/redteam.js";
 
 const router: IRouter = Router();
 
@@ -18,5 +21,8 @@ router.use(securityRouter);
 router.use(evalsRouter);
 router.use(sessionsRouter);
 router.use(demoRouter);
+router.use(policiesRouter);
+router.use(costRouter);
+router.use(redteamRouter);
 
 export default router;

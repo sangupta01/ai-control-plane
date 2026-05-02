@@ -19,6 +19,7 @@ import type {
 import type {
   ChatRequest,
   ChatResponse,
+  CostInsightsResponse,
   DemoRunRequest,
   DemoRunResponse,
   ErrorResponse,
@@ -29,6 +30,10 @@ import type {
   GetTracesParams,
   HealthStatus,
   MetricsSummary,
+  PolicyListResponse,
+  RedTeamRunRequest,
+  RedTeamRunResponse,
+  RedTeamScenariosResponse,
   SecurityEventListResponse,
   SessionListResponse,
   Trace,
@@ -830,3 +835,314 @@ export const useRunDemo = <
 > => {
   return useMutation(getRunDemoMutationOptions(options));
 };
+
+/**
+ * @summary Get active policy rules
+ */
+export const getGetPoliciesUrl = () => {
+  return `/api/v1/policies`;
+};
+
+export const getPolicies = async (
+  options?: RequestInit,
+): Promise<PolicyListResponse> => {
+  return customFetch<PolicyListResponse>(getGetPoliciesUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetPoliciesQueryKey = () => {
+  return [`/api/v1/policies`] as const;
+};
+
+export const getGetPoliciesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPolicies>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getPolicies>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetPoliciesQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPolicies>>> = ({
+    signal,
+  }) => getPolicies({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPolicies>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetPoliciesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPolicies>>
+>;
+export type GetPoliciesQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get active policy rules
+ */
+
+export function useGetPolicies<
+  TData = Awaited<ReturnType<typeof getPolicies>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getPolicies>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetPoliciesQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get cost optimization insights
+ */
+export const getGetCostInsightsUrl = () => {
+  return `/api/v1/cost/insights`;
+};
+
+export const getCostInsights = async (
+  options?: RequestInit,
+): Promise<CostInsightsResponse> => {
+  return customFetch<CostInsightsResponse>(getGetCostInsightsUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCostInsightsQueryKey = () => {
+  return [`/api/v1/cost/insights`] as const;
+};
+
+export const getGetCostInsightsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCostInsights>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCostInsights>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCostInsightsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCostInsights>>> = ({
+    signal,
+  }) => getCostInsights({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCostInsights>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCostInsightsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCostInsights>>
+>;
+export type GetCostInsightsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get cost optimization insights
+ */
+
+export function useGetCostInsights<
+  TData = Awaited<ReturnType<typeof getCostInsights>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCostInsights>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCostInsightsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Run red team adversarial test suite
+ */
+export const getRunRedTeamUrl = () => {
+  return `/api/v1/redteam/run`;
+};
+
+export const runRedTeam = async (
+  redTeamRunRequest: RedTeamRunRequest,
+  options?: RequestInit,
+): Promise<RedTeamRunResponse> => {
+  return customFetch<RedTeamRunResponse>(getRunRedTeamUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(redTeamRunRequest),
+  });
+};
+
+export const getRunRedTeamMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof runRedTeam>>,
+    TError,
+    { data: BodyType<RedTeamRunRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof runRedTeam>>,
+  TError,
+  { data: BodyType<RedTeamRunRequest> },
+  TContext
+> => {
+  const mutationKey = ["runRedTeam"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof runRedTeam>>,
+    { data: BodyType<RedTeamRunRequest> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return runRedTeam(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type RunRedTeamMutationResult = NonNullable<
+  Awaited<ReturnType<typeof runRedTeam>>
+>;
+export type RunRedTeamMutationBody = BodyType<RedTeamRunRequest>;
+export type RunRedTeamMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Run red team adversarial test suite
+ */
+export const useRunRedTeam = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof runRedTeam>>,
+    TError,
+    { data: BodyType<RedTeamRunRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof runRedTeam>>,
+  TError,
+  { data: BodyType<RedTeamRunRequest> },
+  TContext
+> => {
+  return useMutation(getRunRedTeamMutationOptions(options));
+};
+
+/**
+ * @summary List available red team scenarios
+ */
+export const getGetRedTeamScenariosUrl = () => {
+  return `/api/v1/redteam/scenarios`;
+};
+
+export const getRedTeamScenarios = async (
+  options?: RequestInit,
+): Promise<RedTeamScenariosResponse> => {
+  return customFetch<RedTeamScenariosResponse>(getGetRedTeamScenariosUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetRedTeamScenariosQueryKey = () => {
+  return [`/api/v1/redteam/scenarios`] as const;
+};
+
+export const getGetRedTeamScenariosQueryOptions = <
+  TData = Awaited<ReturnType<typeof getRedTeamScenarios>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getRedTeamScenarios>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetRedTeamScenariosQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getRedTeamScenarios>>
+  > = ({ signal }) => getRedTeamScenarios({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getRedTeamScenarios>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetRedTeamScenariosQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getRedTeamScenarios>>
+>;
+export type GetRedTeamScenariosQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List available red team scenarios
+ */
+
+export function useGetRedTeamScenarios<
+  TData = Awaited<ReturnType<typeof getRedTeamScenarios>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getRedTeamScenarios>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetRedTeamScenariosQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
