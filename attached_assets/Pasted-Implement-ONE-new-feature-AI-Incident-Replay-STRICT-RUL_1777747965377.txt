@@ -1,0 +1,136 @@
+Implement ONE new feature: AI Incident Replay.
+
+STRICT RULES:
+- Do NOT modify existing APIs.
+- Do NOT break any existing tests (46/46 must still pass).
+- Do NOT change current behavior.
+- Add only additive functionality.
+
+---
+
+## Feature: AI Incident Replay
+
+### New Endpoint
+
+POST /api/v1/traces/:id/replay
+
+Request body:
+{
+  "override_model": optional string,
+  "override_routing_strategy": optional string
+}
+
+---
+
+## Behavior
+
+1. Fetch original trace:
+   - prompt
+   - tenant_id
+   - user_id
+   - session_id
+   - app_id
+   - original model
+   - original routing strategy
+
+2. Re-run the request through gateway pipeline:
+   - security pre-check
+   - routing (with optional override)
+   - provider
+   - evaluation
+   - observability
+
+3. Store replay as NEW trace:
+   - include field:
+     "replay_of_trace_id": "<original_id>"
+
+4. Return:
+
+{
+  "original_trace": {...},
+  "replay_trace": {...},
+  "diff": {
+    "response_changed": true/false,
+    "model_changed": true/false,
+    "eval_diff": {
+      "relevance": delta,
+      "safety": delta,
+      "hallucination": delta,
+      "groundedness": delta
+    },
+    "routing_changed": true/false
+  }
+}
+
+---
+
+## Observability Updates
+
+Add fields to trace:
+
+- replay_of_trace_id
+- is_replay
+- replay_reason (optional)
+
+---
+
+## Dashboard Update
+
+Add to Traces page:
+
+- Button: "Replay"
+- Show comparison view:
+  - original response vs replay response
+  - eval comparison
+  - model used
+
+---
+
+## Tests
+
+Add tests:
+
+- replay returns 200
+- replay creates new trace
+- replay links to original trace
+- replay diff is computed correctly
+- original tests still pass
+
+---
+
+## Documentation
+
+Update:
+
+docs/FEATURE_EXPANSION_VALIDATION.md
+
+Add section:
+"AI Incident Replay — Validation"
+
+---
+
+## Constraints
+
+- Use existing modules:
+  - routing
+  - evaluator
+  - security
+  - storage
+- Do NOT duplicate logic
+- Keep implementation minimal and clean
+
+---
+
+## Goal
+
+This feature should demonstrate:
+
+“AI debugging via replay and comparison”
+
+---
+
+After implementation:
+1. Run full test suite
+2. Verify replay endpoint
+3. Update validation doc
+4. Stop
