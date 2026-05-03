@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useGetSecurityEvents, getGetSecurityEventsQueryKey } from "@workspace/api-client-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Shield, AlertTriangle, AlertCircle, Info } from "lucide-react";
+import { Shield, AlertTriangle, AlertCircle, Info, ChevronDown, ChevronUp } from "lucide-react";
 
 type Severity = "critical" | "high" | "medium" | "low";
 type Action = "block" | "flag" | "allow";
@@ -41,24 +42,107 @@ function ActionBadge({ action }: { action: Action }) {
   );
 }
 
-const SCANNER_LABELS: Record<string, string> = {
-  pii: "PII Detection",
-  secrets: "Secret Detection",
-  prompt_injection: "Prompt Injection",
-  jailbreak: "Jailbreak Detection",
-  data_exfiltration: "Data Exfiltration",
-};
+const SCANNERS = [
+  { key: "prompt_injection", label: "Prompt Injection" },
+  { key: "jailbreak",        label: "Jailbreak Detection" },
+  { key: "pii",              label: "PII Detection" },
+  { key: "secrets",          label: "Secret Detection" },
+  { key: "data_exfiltration",label: "Data Exfiltration" },
+];
+
+const PREVIEW_ROWS = 3;
+
+interface ScannerEvent {
+  id: string;
+  created_at: string;
+  severity: string;
+  action: string;
+  reason: string;
+  matched?: string;
+  prompt_excerpt?: string;
+}
+
+function ScannerSection({ scanner, label, events }: {
+  scanner: string;
+  label: string;
+  events: ScannerEvent[];
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const shown = expanded ? events : events.slice(0, PREVIEW_ROWS);
+  const hidden = events.length - PREVIEW_ROWS;
+
+  return (
+    <div className="bg-card border border-card-border rounded-lg overflow-hidden">
+      {/* Header */}
+      <div className="px-4 py-2.5 border-b border-border flex items-center gap-2 bg-muted/20">
+        <Shield className="w-3.5 h-3.5 text-primary shrink-0" />
+        <span className="text-sm font-semibold text-foreground">{label}</span>
+        {events.length > 0 ? (
+          <Badge className="ml-1 bg-primary/10 text-primary border-primary/20 text-[10px] px-1.5 py-0">
+            {events.length}
+          </Badge>
+        ) : null}
+        <span className="ml-auto text-xs text-muted-foreground">
+          {events.length === 0 ? "no events" : `${events.length} event${events.length === 1 ? "" : "s"}`}
+        </span>
+      </div>
+
+      {events.length === 0 ? (
+        <div className="px-4 py-3 text-xs text-muted-foreground italic">
+          No events detected — run the demo to generate {label.toLowerCase()} events.
+        </div>
+      ) : (
+        <>
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-border/50">
+                {["Time", "Severity", "Action", "Reason", "Matched", "Prompt Excerpt"].map(h => (
+                  <th key={h} className="text-left px-3 py-2 text-[10px] uppercase tracking-wide text-muted-foreground font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {shown.map(ev => (
+                <tr key={ev.id} data-testid={`row-security-${ev.id}`} className="border-b border-border/30 hover:bg-muted/10 transition-colors">
+                  <td className="px-3 py-2 font-mono text-muted-foreground whitespace-nowrap">{ev.created_at.substring(11, 19)}</td>
+                  <td className="px-3 py-2"><SeverityBadge severity={ev.severity as Severity} /></td>
+                  <td className="px-3 py-2"><ActionBadge action={ev.action as Action} /></td>
+                  <td className="px-3 py-2 text-foreground max-w-[200px] truncate" title={ev.reason}>{ev.reason}</td>
+                  <td className="px-3 py-2 font-mono text-yellow-300 max-w-[120px] truncate">{ev.matched ?? "—"}</td>
+                  <td className="px-3 py-2 text-muted-foreground max-w-[180px] truncate">{ev.prompt_excerpt ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {events.length > PREVIEW_ROWS && (
+            <button
+              onClick={() => setExpanded(e => !e)}
+              className="w-full flex items-center justify-center gap-1.5 px-4 py-2 text-xs text-primary hover:text-primary/80 hover:bg-muted/10 transition-colors border-t border-border/30"
+            >
+              {expanded ? (
+                <><ChevronUp className="w-3 h-3" /> Show less</>
+              ) : (
+                <><ChevronDown className="w-3 h-3" /> Show {hidden} more {scanner} event{hidden === 1 ? "" : "s"}</>
+              )}
+            </button>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
 export default function Security() {
   const { data, isLoading } = useGetSecurityEvents(
-    { limit: 100 },
-    { query: { refetchInterval: 15000, queryKey: getGetSecurityEventsQueryKey({ limit: 100 }) } },
+    { limit: 500 },
+    { query: { refetchInterval: 15000, queryKey: getGetSecurityEventsQueryKey({ limit: 500 }) } },
   );
 
   const events = data?.events ?? [];
   const total = data?.total ?? 0;
 
-  const byScanner: Record<string, typeof events> = {};
+  const byScanner: Record<string, ScannerEvent[]> = {};
   for (const ev of events) {
     if (!byScanner[ev.scanner]) byScanner[ev.scanner] = [];
     byScanner[ev.scanner]!.push(ev);
@@ -66,21 +150,19 @@ export default function Security() {
 
   const counts = {
     critical: events.filter(e => e.severity === "critical").length,
-    high: events.filter(e => e.severity === "high").length,
-    medium: events.filter(e => e.severity === "medium").length,
-    low: events.filter(e => e.severity === "low").length,
+    high:     events.filter(e => e.severity === "high").length,
+    medium:   events.filter(e => e.severity === "medium").length,
+    low:      events.filter(e => e.severity === "low").length,
   };
 
   return (
-    <div className="p-6 space-y-5">
-      <div className="flex items-center gap-3">
-        <div>
-          <h1 className="text-lg font-bold text-foreground">Security Events</h1>
-          <p className="text-xs text-muted-foreground mt-0.5">{total} total events detected</p>
-        </div>
+    <div className="p-6 space-y-4">
+      <div>
+        <h1 className="text-lg font-bold text-foreground">Security Events</h1>
+        <p className="text-xs text-muted-foreground mt-0.5">{total} total events across {SCANNERS.length} scanner classes</p>
       </div>
 
-      {/* Summary cards */}
+      {/* Severity summary */}
       <div className="grid grid-cols-4 gap-3">
         {(["critical", "high", "medium", "low"] as Severity[]).map(sev => (
           <div key={sev} data-testid={`security-count-${sev}`} className="bg-card border border-card-border rounded-lg p-3">
@@ -91,49 +173,22 @@ export default function Security() {
         ))}
       </div>
 
-      {/* Events by scanner */}
+      {/* All 5 scanner sections */}
       {isLoading ? (
         <div className="space-y-3">
-          {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-lg" />)}
-        </div>
-      ) : events.length === 0 ? (
-        <div className="bg-card border border-card-border rounded-lg p-10 flex flex-col items-center gap-3">
-          <Shield className="w-8 h-8 text-muted-foreground" />
-          <div className="text-sm text-muted-foreground text-center">
-            No security events yet. Run the demo to see injection attacks, PII, and secret detection in action.
-          </div>
+          {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-lg" />)}
         </div>
       ) : (
-        Object.entries(byScanner).map(([scanner, evs]) => (
-          <div key={scanner} className="bg-card border border-card-border rounded-lg overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-border flex items-center gap-2 bg-muted/20">
-              <Shield className="w-3.5 h-3.5 text-primary" />
-              <span className="text-sm font-semibold text-foreground">{SCANNER_LABELS[scanner] ?? scanner}</span>
-              <span className="ml-auto text-xs text-muted-foreground">{evs.length} events</span>
-            </div>
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="border-b border-border/50">
-                  {["Time", "Severity", "Action", "Reason", "Matched", "Prompt Excerpt"].map(h => (
-                    <th key={h} className="text-left px-3 py-2 text-[10px] uppercase tracking-wide text-muted-foreground font-medium">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {evs.map(ev => (
-                  <tr key={ev.id} data-testid={`row-security-${ev.id}`} className="border-b border-border/30 hover:bg-muted/10 transition-colors">
-                    <td className="px-3 py-2.5 font-mono text-muted-foreground whitespace-nowrap">{ev.created_at.substring(11, 19)}</td>
-                    <td className="px-3 py-2.5"><SeverityBadge severity={ev.severity as Severity} /></td>
-                    <td className="px-3 py-2.5"><ActionBadge action={ev.action as Action} /></td>
-                    <td className="px-3 py-2.5 text-foreground max-w-[200px] truncate" title={ev.reason}>{ev.reason}</td>
-                    <td className="px-3 py-2.5 font-mono text-yellow-300 max-w-[120px] truncate">{ev.matched ?? "—"}</td>
-                    <td className="px-3 py-2.5 text-muted-foreground max-w-[180px] truncate">{ev.prompt_excerpt ?? "—"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ))
+        <div className="space-y-3">
+          {SCANNERS.map(({ key, label }) => (
+            <ScannerSection
+              key={key}
+              scanner={key}
+              label={label}
+              events={byScanner[key] ?? []}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
