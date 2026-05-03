@@ -42,24 +42,24 @@ build:
 # Run original 22-test baseline suite
 test:
 	@echo "Running baseline test suite (22 tests)..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/test_suite.ts
+	@API_URL=$(API_URL) npx tsx scripts/src/test_suite.ts
 
 # Run 24-test feature expansion suite
 test-features:
 	@echo "Running feature expansion test suite (24 tests)..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/test_features.ts
+	@API_URL=$(API_URL) npx tsx scripts/src/test_features.ts
 
 # Run 7-test AI Incident Replay suite
 test-replay:
 	@echo "Running replay test suite (7 tests)..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/test_replay.ts
+	@API_URL=$(API_URL) npx tsx scripts/src/test_replay.ts
 
 # Run all 53 tests — must all pass before merging
 test-all:
 	@echo "Running all 53 tests..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/test_suite.ts && \
-	 API_URL=$(API_URL) pnpm exec tsx scripts/src/test_features.ts && \
-	 API_URL=$(API_URL) pnpm exec tsx scripts/src/test_replay.ts && \
+	@API_URL=$(API_URL) npx tsx scripts/src/test_suite.ts && \
+	 API_URL=$(API_URL) npx tsx scripts/src/test_features.ts && \
+	 API_URL=$(API_URL) npx tsx scripts/src/test_replay.ts && \
 	 echo "" && echo "All 53 tests PASSED"
 
 # -------------------------------------------------------------------
@@ -69,16 +69,16 @@ test-all:
 # Full validation: all tests + demo
 validate:
 	@echo "Running full validation (tests + demo)..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/test_suite.ts && \
-	 API_URL=$(API_URL) pnpm exec tsx scripts/src/test_features.ts && \
-	 API_URL=$(API_URL) pnpm exec tsx scripts/src/test_replay.ts && \
-	 API_URL=$(API_URL) pnpm exec tsx scripts/src/run_demo.ts && \
+	@API_URL=$(API_URL) npx tsx scripts/src/test_suite.ts && \
+	 API_URL=$(API_URL) npx tsx scripts/src/test_features.ts && \
+	 API_URL=$(API_URL) npx tsx scripts/src/test_replay.ts && \
+	 API_URL=$(API_URL) npx tsx scripts/src/run_demo.ts && \
 	 echo "" && echo "Full validation PASSED"
 
 # Validate only the demo scenarios
 validate-demo:
 	@echo "Validating demo..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/run_demo.ts && \
+	@API_URL=$(API_URL) npx tsx scripts/src/run_demo.ts && \
 	 echo "Demo validation PASSED" || (echo "Demo validation FAILED" && exit 1)
 
 # -------------------------------------------------------------------
@@ -88,7 +88,7 @@ validate-demo:
 # Run demo scenario suite
 demo:
 	@echo "Running AI Control Plane demo..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/run_demo.ts
+	@API_URL=$(API_URL) npx tsx scripts/src/run_demo.ts
 
 # -------------------------------------------------------------------
 # Database
@@ -108,27 +108,27 @@ reset-db:
 # Generate coding assistant workload
 workload-coding:
 	@echo "Generating coding assistant workload..."
-	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) pnpm exec tsx scripts/src/generate_workload.ts coding
+	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) npx tsx scripts/src/generate_workload.ts coding
 
 # Generate incident debugging workload
 workload-incident:
 	@echo "Generating incident debugging workload..."
-	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) pnpm exec tsx scripts/src/generate_workload.ts incident
+	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) npx tsx scripts/src/generate_workload.ts incident
 
 # Generate customer support workload
 workload-support:
 	@echo "Generating customer support workload..."
-	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) pnpm exec tsx scripts/src/generate_workload.ts support
+	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) npx tsx scripts/src/generate_workload.ts support
 
 # Generate security analyst workload
 workload-security:
 	@echo "Generating security analyst workload..."
-	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) pnpm exec tsx scripts/src/generate_workload.ts security
+	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) npx tsx scripts/src/generate_workload.ts security
 
 # Generate mixed enterprise workload (default)
 workload-enterprise:
 	@echo "Generating mixed enterprise workload..."
-	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) pnpm exec tsx scripts/src/generate_workload.ts enterprise
+	@API_URL=$(API_URL) DELAY_MS=$(DELAY_MS) npx tsx scripts/src/generate_workload.ts enterprise
 
 # -------------------------------------------------------------------
 # Continuous workload streaming (script-based, press Ctrl+C to stop)
@@ -139,7 +139,7 @@ STREAM_RPM      ?= 10
 STREAM_ATTACK   ?= 0.10
 
 stream:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile $(STREAM_PROFILE) \
 	        --duration $(STREAM_DURATION) \
 	        --rpm $(STREAM_RPM) \
@@ -147,7 +147,7 @@ stream:
 	        --api-url $(API_URL)
 
 stream-coding:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile coding_assistant \
 	        --duration $(STREAM_DURATION) \
 	        --rpm $(STREAM_RPM) \
@@ -155,7 +155,7 @@ stream-coding:
 	        --api-url $(API_URL)
 
 stream-incident:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile incident_debugging \
 	        --duration $(STREAM_DURATION) \
 	        --rpm $(STREAM_RPM) \
@@ -163,7 +163,7 @@ stream-incident:
 	        --api-url $(API_URL)
 
 stream-support:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile customer_support \
 	        --duration $(STREAM_DURATION) \
 	        --rpm $(STREAM_RPM) \
@@ -171,7 +171,7 @@ stream-support:
 	        --api-url $(API_URL)
 
 stream-security:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile security_analyst \
 	        --duration $(STREAM_DURATION) \
 	        --rpm $(STREAM_RPM) \
@@ -179,7 +179,7 @@ stream-security:
 	        --api-url $(API_URL)
 
 stream-enterprise:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile mixed_enterprise \
 	        --duration $(STREAM_DURATION) \
 	        --rpm $(STREAM_RPM) \
@@ -187,7 +187,7 @@ stream-enterprise:
 	        --api-url $(API_URL)
 
 stream-dry-run:
-	@pnpm exec tsx scripts/src/stream_workload.ts \
+	@npx tsx scripts/src/stream_workload.ts \
 	        --profile $(STREAM_PROFILE) \
 	        --dry-run
 
@@ -196,7 +196,7 @@ stream-dry-run:
 # -------------------------------------------------------------------
 test-workload:
 	@echo "Running workload generator tests..."
-	@API_URL=$(API_URL) pnpm exec tsx scripts/src/test_workload.ts
+	@API_URL=$(API_URL) npx tsx scripts/src/test_workload.ts
 
 # -------------------------------------------------------------------
 # Quick inspection (Replit mode — uses API_URL=http://localhost:80/api)
@@ -256,7 +256,7 @@ docker-logs:
 # Run all 53 tests against the running Docker stack
 docker-test:
 	@echo "Running all 53 tests against Docker API (http://localhost:8080/api)..."
-	@API_URL=http://localhost:8080/api pnpm exec tsx scripts/src/test_suite.ts && \
-	 API_URL=http://localhost:8080/api pnpm exec tsx scripts/src/test_features.ts && \
-	 API_URL=http://localhost:8080/api pnpm exec tsx scripts/src/test_replay.ts && \
+	@API_URL=http://localhost:8080/api npx tsx scripts/src/test_suite.ts && \
+	 API_URL=http://localhost:8080/api npx tsx scripts/src/test_features.ts && \
+	 API_URL=http://localhost:8080/api npx tsx scripts/src/test_replay.ts && \
 	 echo "" && echo "All 53 tests PASSED against Docker"
