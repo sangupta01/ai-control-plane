@@ -75,6 +75,12 @@ const SCENARIO_DEFS = [
     replayCandidate: false,
   },
   {
+    name: "data_exfiltration",
+    description: "Bulk data dump + transmission attempt — blocked by data exfiltration scanner",
+    tag: "Security",
+    replayCandidate: false,
+  },
+  {
     name: "evaluation_scoring",
     description: "Request that produces varied evaluation scores across all dimensions",
     tag: "Eval",
