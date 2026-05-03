@@ -1,0 +1,37 @@
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)% make docker-build
+docker build -t ai-control-plane .
+[+] Building 1.4s (13/26)                                                                                                                                                                                                            docker:colima
+ => [internal] load build definition from Dockerfile                                                                                                                                                                                          0.0s
+ => => transferring dockerfile: 1.24kB                                                                                                                                                                                                        0.0s
+ => [internal] load metadata for docker.io/library/node:22-slim                                                                                                                                                                               1.3s
+ => [internal] load .dockerignore                                                                                                                                                                                                             0.0s
+ => => transferring context: 2B                                                                                                                                                                                                               0.0s
+ => CANCELED [base  1/17] FROM docker.io/library/node:22-slim@sha256:d415caac2f1f77b98caaf9415c5f807e14bc8d7bdea62561ea2fef4fbd08a73c                                                                                                         0.1s
+ => => resolve docker.io/library/node:22-slim@sha256:d415caac2f1f77b98caaf9415c5f807e14bc8d7bdea62561ea2fef4fbd08a73c                                                                                                                         0.0s
+ => => sha256:d415caac2f1f77b98caaf9415c5f807e14bc8d7bdea62561ea2fef4fbd08a73c 6.49kB / 6.49kB                                                                                                                                                0.0s
+ => => sha256:be4b1d4a5592ab52a6760778402ccdadaa1f09c019a8b9caa6e7e0ad6fd04bc6 1.93kB / 1.93kB                                                                                                                                                0.0s
+ => => sha256:4e6c5a55f01db07cccc6cbc1ae6f86eee2649ed4bfaec7ed2789a9ba9d565eea 6.89kB / 6.89kB                                                                                                                                                0.0s
+ => [internal] load build context                                                                                                                                                                                                             0.1s
+ => => transferring context: 6.02MB                                                                                                                                                                                                           0.1s
+ => CACHED [base  2/17] WORKDIR /app                                                                                                                                                                                                          0.0s
+ => CACHED [base  3/17] RUN npm install -g pnpm@10                                                                                                                                                                                            0.0s
+ => CACHED [base  4/17] COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./                                                                                                                                                        0.0s
+ => CACHED [base  5/17] COPY tsconfig.json tsconfig.base.json ./                                                                                                                                                                              0.0s
+ => CACHED [base  6/17] COPY lib/api-spec/package.json lib/api-spec/                                                                                                                                                                          0.0s
+ => CACHED [base  7/17] COPY lib/api-client-react/package.json lib/api-client-react/                                                                                                                                                          0.0s
+ => CACHED [base  8/17] COPY lib/api-zod/package.json lib/api-zod/                                                                                                                                                                            0.0s
+ => ERROR [base  9/17] COPY lib/db/package.json lib/db/ 2>/dev/null || true                                                                                                                                                                   0.0s
+------
+ > [base  9/17] COPY lib/db/package.json lib/db/ 2>/dev/null || true:
+------
+Dockerfile:12
+--------------------
+  10 |     COPY lib/api-client-react/package.json lib/api-client-react/
+  11 |     COPY lib/api-zod/package.json lib/api-zod/
+  12 | >>> COPY lib/db/package.json lib/db/ 2>/dev/null || true
+  13 |     COPY artifacts/api-server/package.json artifacts/api-server/
+  14 |     COPY scripts/package.json scripts/
+--------------------
+ERROR: failed to solve: failed to compute cache key: failed to calculate checksum of ref 1ece9cd2-e7f5-414b-a611-4417b2295712::r0wpnliyp6jreafecfbhmp9z9: "/||": not found
+make: *** [docker-build] Error 1
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)%
