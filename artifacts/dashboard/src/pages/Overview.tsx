@@ -52,14 +52,14 @@ export default function Overview() {
   }
 
   const kpis = [
-    { label: "Total Requests", value: fmt(data.total_requests), icon: Activity, color: "hsl(210,100%,56%)" },
-    { label: "Total Tokens", value: fmt(data.total_tokens), icon: Zap, color: "hsl(199,89%,48%)" },
-    { label: "Total Cost", value: `$${data.total_cost.toFixed(4)}`, icon: DollarSign, color: "hsl(142,71%,45%)" },
-    { label: "Avg Latency", value: `${data.avg_latency_ms.toFixed(0)}ms`, icon: TrendingUp, color: "hsl(38,92%,50%)" },
-    { label: "Security Events", value: fmt(data.security_events_count), icon: Shield, color: "hsl(0,72%,51%)" },
-    { label: "Blocked", value: fmt(data.blocked_requests), icon: Shield, color: "hsl(0,72%,51%)" },
-    { label: "Avg Eval Score", value: data.avg_eval_score.toFixed(3), icon: CheckCircle, color: "hsl(142,71%,45%)" },
-    { label: "Session Affinity", value: `${(data.session_affinity_rate * 100).toFixed(1)}%`, icon: Users, color: "hsl(280,80%,60%)" },
+    { label: "Total Requests", value: fmt(data.total_requests ?? 0), icon: Activity, color: "hsl(210,100%,56%)" },
+    { label: "Total Tokens", value: fmt(data.total_tokens ?? 0), icon: Zap, color: "hsl(199,89%,48%)" },
+    { label: "Total Cost", value: `$${(data.total_cost ?? 0).toFixed(4)}`, icon: DollarSign, color: "hsl(142,71%,45%)" },
+    { label: "Avg Latency", value: `${(data.avg_latency_ms ?? 0).toFixed(0)}ms`, icon: TrendingUp, color: "hsl(38,92%,50%)" },
+    { label: "Security Events", value: fmt(data.security_events_count ?? 0), icon: Shield, color: "hsl(0,72%,51%)" },
+    { label: "Blocked", value: fmt(data.blocked_requests ?? 0), icon: Shield, color: "hsl(0,72%,51%)" },
+    { label: "Avg Eval Score", value: (data.avg_eval_score ?? 0).toFixed(3), icon: CheckCircle, color: "hsl(142,71%,45%)" },
+    { label: "Session Affinity", value: `${((data.session_affinity_rate ?? 0) * 100).toFixed(1)}%`, icon: Users, color: "hsl(280,80%,60%)" },
   ];
 
   const modelData = Object.entries(data.requests_per_model || {}).map(([name, value]) => ({
