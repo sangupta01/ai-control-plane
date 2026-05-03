@@ -21,7 +21,37 @@ Every LLM request runs through unified routing, security scanning, policy enforc
 
 ---
 
-## Modes of Operation
+## Recommended: Run with Docker
+
+The fastest way to run the full stack locally — one command starts both the API server and the dashboard, with persistent SQLite storage and automatic `.env` loading.
+
+```bash
+# 1. Copy and edit environment (only needed once)
+cp .env.example .env
+
+# 2. Build the API image (only needed after code changes)
+make docker-build
+
+# 3. Start API + dashboard
+make docker-up
+```
+
+| Service | URL |
+|---|---|
+| Dashboard | http://localhost:3000 |
+| API health | http://localhost:8080/api/healthz |
+
+```bash
+make docker-logs    # follow live logs (Ctrl+C to exit)
+make docker-test    # run all 53 tests against the running stack
+make docker-down    # stop everything
+```
+
+Full Docker guide: [docs/DOCKER_RUN.md](docs/DOCKER_RUN.md)
+
+---
+
+## Other Run Modes
 
 ### Replit Hosted Demo (no setup needed)
 
@@ -31,42 +61,23 @@ The app runs live on Replit. Open the preview pane:
 
 Everything uses mock providers by default — no API keys required.
 
-### Local Mac Mode (pnpm)
-
-For local development without Docker:
+### Local Mac Mode (pnpm, no Docker)
 
 ```bash
-# 1. Install dependencies
 make install
-
-# 2. Copy and configure environment
 cp .env.example .env
-# Edit .env — set DB_PATH=./data/ai-control-plane.db at minimum
 
-# 3. Start API server (in one terminal)
+# Terminal 1 — API server
 PORT=8080 BASE_PATH=/api npx tsx artifacts/api-server/src/index.ts
 
-# 4. Start dashboard (in another terminal)
+# Terminal 2 — Dashboard
 PORT=3000 BASE_PATH=/ pnpm --filter @workspace/dashboard run dev
 
-# 5. Run tests
+# Tests
 make test-all API_URL=http://localhost:8080/api
 ```
 
 Full walkthrough: [docs/LOCAL_RUN.md](docs/LOCAL_RUN.md)
-
-### Docker Mode (Mac / Linux)
-
-```bash
-cp .env.example .env   # configure PROVIDER_MODE, API keys, etc.
-make docker-build
-make docker-up
-
-# API: http://localhost:8080/api/healthz
-# Dashboard: http://localhost:3000
-```
-
-Stop with: `make docker-down`
 
 ---
 
@@ -131,10 +142,12 @@ make chat
 make metrics
 make traces
 
-# Docker
-make docker-build
-make docker-up
-make docker-down
+# Docker (recommended local path)
+make docker-build         # build API image
+make docker-up            # start API + dashboard
+make docker-logs          # follow live logs
+make docker-test          # run all 53 tests against Docker
+make docker-down          # stop everything
 ```
 
 All `make` targets that hit the API accept `API_URL=...` to override the target:

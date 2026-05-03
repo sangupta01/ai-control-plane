@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    env_file:
+      - path: .env
+        required: false
     environment:
       PORT: "8080"
       BASE_PATH: "/api"
@@ -28,16 +31,17 @@ services:
   dashboard:
     image: node:22-slim
     working_dir: /app
-    command: sh -c "npm install -g pnpm@10 && pnpm --filter @workspace/dashboard run dev"
+    command: sh -c "npm install -g pnpm@10 && pnpm install --frozen-lockfile && pnpm --filter @workspace/dashboard run dev"
     ports:
       - "3000:3000"
     environment:
       PORT: "3000"
       BASE_PATH: "/"
       NODE_ENV: "development"
+      API_PROXY_TARGET: "http://api:8080"
     volumes:
       - .:/app
-      - /app/node_modules
+      - dashboard_modules:/app/node_modules
     depends_on:
       api:
         condition: service_healthy
@@ -45,3 +49,4 @@ services:
 
 volumes:
   db_data:
+  dashboard_modules:
