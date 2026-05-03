@@ -26,15 +26,15 @@ Navigate to **Demo Runner** in the sidebar.
 
 Click the **Run Full Demo** button and wait ~5–7 seconds.
 
-> **Say:** "We're simulating 10 real-world request patterns simultaneously — normal traffic, security attacks, session routing decisions, and cost scenarios."
+> **Say:** "We're simulating 11 real-world request patterns simultaneously — normal traffic, security attacks, session routing decisions, and cost scenarios."
 
 ### Step 3: Read the results
 
 Point to the summary bar:
 - **6 passed** — legitimate requests processed
-- **4 blocked** ✓ — security threats correctly stopped
+- **5 blocked** ✓ — security threats correctly stopped
 
-> **Say:** "Notice 4 requests were blocked. That's correct behavior — those were prompt injections, a PII leak, an AWS key, and a DAN jailbreak attempt. The gateway caught all of them before they reached the model."
+> **Say:** "Notice 5 requests were blocked. That's correct behavior — those were a prompt injection, a PII leak, an AWS key, a DAN jailbreak attempt, and a bulk data exfiltration attempt. The gateway caught all of them before they reached the model."
 
 ---
 
@@ -146,7 +146,7 @@ When results appear (100% pass rate):
 |---|---|
 | Security scanners | 5 (PII, secrets, injection, jailbreak, data exfiltration) |
 | Policy rules | 18 (YAML, hot-reloadable) |
-| Demo scenarios | 10 (6 pass, 4 blocked — all correct) |
+| Demo scenarios | 11 (6 pass, 5 blocked — all correct) |
 | Red team scenarios | 10 (100% pass rate) |
 | Model providers | 5 (GPT-4, GPT-3.5, Claude Opus, Claude Haiku, Gemini Pro) |
 | Replay capability | Any trace, any model, full eval comparison |

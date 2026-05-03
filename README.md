@@ -12,6 +12,14 @@
 
 > Mock mode is the default — open the link, click "Demo Runner", and the full system runs in 5 seconds.
 
+### Judge Path (under 2 minutes)
+
+1. Open the live app → **Demo Runner** → click **Run Full Demo** — watch 11 scenarios execute (6 pass, 5 blocked)
+2. Click **Traces** → click **Replay** on any row → change the model → see the eval diff
+3. Click **Cost Insights** → review routing optimization suggestions
+4. Click **Security** → see 5 scanner classes with distinct live event counts
+5. Click **Red Team** → click **Run Red Team** → 10 adversarial attacks, 100% block rate
+
 ### 30-Second Value Prop
 
 Most teams bolt LLM calls directly into application code with no visibility, no guardrails, and no recovery path when something goes wrong. **AI Control Plane** is the missing infrastructure layer — a self-contained gateway that gives every LLM request security enforcement, policy control, cost tracking, heuristic evaluation, and full replay capability, all in one place.
@@ -20,7 +28,7 @@ Most teams bolt LLM calls directly into application code with no visibility, no 
 
 | Step | Where | What you see |
 |------|--------|-------------|
-| 1 | **Demo Runner** → "Run Full Demo" | 11 scenarios execute: 7 pass, 4 blocked (injection, PII, secret, jailbreak, data exfil) |
+| 1 | **Demo Runner** → "Run Full Demo" | 11 scenarios execute: 6 pass, 5 blocked (injection, PII, secret, jailbreak, data exfil) |
 | 2 | **Security** | 5 scanner classes with live event counts — prompt injection highest, data exfil lowest |
 | 3 | **Traces** → click "Replay" on any trace | Replay against a cheaper model; side-by-side eval diff appears |
 | 4 | **Cost Insights** | Routing optimization suggestions: GPT-4 → GPT-3.5 saves ~80% |
@@ -68,13 +76,13 @@ AI Control Plane is the **gateway layer** that provides all of this for producti
 ## Screenshots
 
 ### Overview Dashboard
-![Overview](docs/screenshots/overview.png)
+![Overview](docs/screenshots/overview.jpg)
 
-### AI Incident Replay
-![Session Replay](docs/screenshots/session-replay.png)
+### Trace Explorer with Replay
+![Session Replay](docs/screenshots/session-replay.jpg)
 
-### Security Events
-![Security Events](docs/screenshots/security-events.png)
+### Security Events — 5 Scanner Classes
+![Security Events](docs/screenshots/security-events.jpg)
 
 ---
 

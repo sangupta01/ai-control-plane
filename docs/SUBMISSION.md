@@ -57,7 +57,7 @@ The React dashboard consumes this data in real time. The Incident Replay feature
 
 **Live app:** https://autonomous-executor--santoshgupta14.replit.app/
 
-1. Open **Demo Runner** → click **Run Full Demo** → 11 scenarios run in ~5 seconds; 7 pass, 4 blocked
+1. Open **Demo Runner** → click **Run Full Demo** → 11 scenarios run in ~5 seconds; 6 pass, 5 blocked
 2. Navigate to **Security** → see 5 scanner classes with distinct event counts (injection highest, data exfil lowest)
 3. Navigate to **Traces** → click **Replay** on any trace → select a cheaper model → see side-by-side eval diff
 4. Navigate to **Cost Insights** → see routing optimization suggestions (GPT-4 → GPT-3.5 saves ~80%)
