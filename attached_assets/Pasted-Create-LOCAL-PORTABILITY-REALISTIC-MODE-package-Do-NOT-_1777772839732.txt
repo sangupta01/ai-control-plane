@@ -1,0 +1,91 @@
+Create LOCAL PORTABILITY + REALISTIC MODE package.
+
+Do NOT break existing Replit demo.
+Do NOT remove mock providers.
+Do NOT change existing API contracts.
+
+Goal:
+Make this project runnable independently on my Mac and support optional real LLM providers.
+
+Add:
+
+1. LOCAL_RUN.md
+Create docs/LOCAL_RUN.md with:
+- prerequisites
+- install steps
+- env vars
+- how to run backend
+- how to run dashboard
+- how to run tests
+- how to run demo
+- how to use real provider mode
+- troubleshooting
+
+2. .env.example
+Include:
+- DB_PATH=./data/ai-control-plane.db
+- PROVIDER_MODE=mock|real|hybrid
+- OPENAI_API_KEY=
+- ANTHROPIC_API_KEY=
+- DEFAULT_PROVIDER=
+- DEFAULT_MODEL=
+
+3. Persistent local storage
+Support DB_PATH env var so SQLite persists locally.
+Create data/.gitkeep.
+Document that Replit can stay ephemeral, local Mac can persist.
+
+4. Docker local run
+Add or verify:
+- Dockerfile
+- docker-compose.yml
+- Makefile targets:
+  - make install
+  - make dev
+  - make test
+  - make demo
+  - make validate
+  - make reset-db
+
+5. Real provider adapter
+Add optional provider implementation behind existing provider interface:
+- If PROVIDER_MODE=mock, current behavior unchanged.
+- If PROVIDER_MODE=real and API key exists, call real provider.
+- If real provider fails or key missing, fallback to mock provider with warning.
+
+Prefer OpenAI first because setup is easiest.
+Do not hardcode secrets.
+
+6. Realistic workload generator
+Add scripts/src/generate_workload.ts that can generate:
+- coding assistant workload
+- incident debugging workload
+- customer support workload
+- security analyst workload
+- mixed enterprise workload
+
+It should call /api/v1/chat and generate traces using realistic prompts.
+
+Commands:
+- make workload-coding
+- make workload-incident
+- make workload-enterprise
+
+7. Documentation
+Update README with:
+- Replit hosted demo mode
+- Local Mac mode
+- Mock provider mode
+- Real provider mode
+- Persistent DB mode
+
+8. Validation
+Run full tests:
+- existing 53/53 must pass
+- add tests for env config/provider fallback if feasible
+- write docs/PORTABILITY_VALIDATION.md
+
+Important:
+This is a portability and realism enhancement.
+Do not add risky new product features.
+Existing Replit demo must remain working.

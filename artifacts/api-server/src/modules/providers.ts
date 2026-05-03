@@ -1,3 +1,5 @@
+import { logger } from "../lib/logger.js";
+
 export interface ProviderRequest {
   model: string;
   messages: Array<{ role: string; content: string }>;
@@ -58,6 +60,16 @@ export const MODEL_CATALOG: Record<string, ModelConfig> = {
   },
 };
 
+const OPENAI_MODEL_MAP: Record<string, string> = {
+  "mock-gpt-4": "gpt-4o-mini",
+  "mock-gpt-3.5": "gpt-3.5-turbo",
+};
+
+const ANTHROPIC_MODEL_MAP: Record<string, string> = {
+  "mock-claude-3-opus": "claude-3-opus-20240229",
+  "mock-claude-3-haiku": "claude-3-haiku-20240307",
+};
+
 const MOCK_RESPONSES = [
   "I understand your request. Based on the context provided, here is a detailed and thoughtful response that addresses the key points raised.",
   "That's an interesting question. Let me break this down systematically: First, we need to consider the core principles at play here. The solution involves several interconnected components.",
@@ -79,23 +91,165 @@ function selectMockResponse(messages: Array<{ role: string; content: string }>):
   return MOCK_RESPONSES[hash % MOCK_RESPONSES.length]!;
 }
 
-export async function callProvider(req: ProviderRequest): Promise<ProviderResponse> {
-  const model = MODEL_CATALOG[req.model] ?? MODEL_CATALOG["mock-gpt-4"]!;
-  const startMs = Date.now();
+function getProviderMode(): "mock" | "real" | "hybrid" {
+  const mode = process.env["PROVIDER_MODE"];
+  if (mode === "real" || mode === "hybrid") return mode;
+  return "mock";
+}
 
-  await new Promise(resolve => setTimeout(resolve, model.avg_latency_ms * (0.8 + Math.random() * 0.4)));
+async function callOpenAI(
+  realModel: string,
+  messages: Array<{ role: string; content: string }>,
+): Promise<{ content: string; prompt_tokens: number; completion_tokens: number }> {
+  const apiKey = process.env["OPENAI_API_KEY"];
+  if (!apiKey) throw new Error("OPENAI_API_KEY not set");
 
-  const content = selectMockResponse(req.messages);
-  const prompt_tokens = req.messages.reduce((acc, m) => acc + estimateTokens(m.content), 0);
-  const completion_tokens = estimateTokens(content);
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: realModel,
+      messages,
+      max_tokens: 512,
+    }),
+  });
 
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`OpenAI API error ${res.status}: ${text.substring(0, 200)}`);
+  }
+
+  const data = await res.json() as {
+    choices: Array<{ message: { content: string } }>;
+    usage: { prompt_tokens: number; completion_tokens: number };
+  };
+
+  const content = data.choices[0]?.message?.content ?? "";
   return {
     content,
-    prompt_tokens,
-    completion_tokens,
-    total_tokens: prompt_tokens + completion_tokens,
+    prompt_tokens: data.usage.prompt_tokens,
+    completion_tokens: data.usage.completion_tokens,
+  };
+}
+
+async function callAnthropic(
+  realModel: string,
+  messages: Array<{ role: string; content: string }>,
+): Promise<{ content: string; prompt_tokens: number; completion_tokens: number }> {
+  const apiKey = process.env["ANTHROPIC_API_KEY"];
+  if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set");
+
+  const systemMsg = messages.find(m => m.role === "system")?.content;
+  const userMessages = messages.filter(m => m.role !== "system");
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: realModel,
+      max_tokens: 512,
+      ...(systemMsg ? { system: systemMsg } : {}),
+      messages: userMessages,
+    }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Anthropic API error ${res.status}: ${text.substring(0, 200)}`);
+  }
+
+  const data = await res.json() as {
+    content: Array<{ type: string; text: string }>;
+    usage: { input_tokens: number; output_tokens: number };
+  };
+
+  const content = data.content.filter(c => c.type === "text").map(c => c.text).join("");
+  return {
+    content,
+    prompt_tokens: data.usage.input_tokens,
+    completion_tokens: data.usage.output_tokens,
+  };
+}
+
+async function callMockProvider(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+): Promise<{ content: string; prompt_tokens: number; completion_tokens: number }> {
+  const cfg = MODEL_CATALOG[model] ?? MODEL_CATALOG["mock-gpt-4"]!;
+  await new Promise(resolve => setTimeout(resolve, cfg.avg_latency_ms * (0.8 + Math.random() * 0.4)));
+  const content = selectMockResponse(messages);
+  return {
+    content,
+    prompt_tokens: messages.reduce((acc, m) => acc + estimateTokens(m.content), 0),
+    completion_tokens: estimateTokens(content),
+  };
+}
+
+async function callRealProvider(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+): Promise<{ content: string; prompt_tokens: number; completion_tokens: number } | null> {
+  const openaiModel = OPENAI_MODEL_MAP[model];
+  if (openaiModel && process.env["OPENAI_API_KEY"]) {
+    return callOpenAI(openaiModel, messages);
+  }
+
+  const anthropicModel = ANTHROPIC_MODEL_MAP[model];
+  if (anthropicModel && process.env["ANTHROPIC_API_KEY"]) {
+    return callAnthropic(anthropicModel, messages);
+  }
+
+  return null;
+}
+
+export async function callProvider(req: ProviderRequest): Promise<ProviderResponse> {
+  const startMs = Date.now();
+  const mode = getProviderMode();
+  const defaultModel = process.env["DEFAULT_MODEL"];
+  const model = (defaultModel && !MODEL_CATALOG[req.model]) ? defaultModel : req.model;
+
+  if (mode === "mock") {
+    const result = await callMockProvider(model, req.messages);
+    return {
+      ...result,
+      total_tokens: result.prompt_tokens + result.completion_tokens,
+      latency_ms: Date.now() - startMs,
+      model,
+    };
+  }
+
+  try {
+    const realResult = await callRealProvider(model, req.messages);
+    if (realResult) {
+      logger.info({ model, mode, provider: "real" }, "Real provider call succeeded");
+      return {
+        ...realResult,
+        total_tokens: realResult.prompt_tokens + realResult.completion_tokens,
+        latency_ms: Date.now() - startMs,
+        model,
+      };
+    }
+
+    if (mode === "real") {
+      logger.warn({ model }, "No real provider configured for model; falling back to mock");
+    }
+  } catch (err) {
+    logger.warn({ err, model, mode }, "Real provider call failed; falling back to mock");
+  }
+
+  const mockResult = await callMockProvider(model, req.messages);
+  return {
+    ...mockResult,
+    total_tokens: mockResult.prompt_tokens + mockResult.completion_tokens,
     latency_ms: Date.now() - startMs,
-    model: req.model,
+    model,
   };
 }
 

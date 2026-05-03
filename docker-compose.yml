@@ -1,0 +1,47 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      BASE_PATH: "/api"
+      DB_PATH: "/data/ai-control-plane.db"
+      NODE_ENV: "production"
+      PROVIDER_MODE: "${PROVIDER_MODE:-mock}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      DEFAULT_MODEL: "${DEFAULT_MODEL:-mock-gpt-4}"
+    volumes:
+      - db_data:/data
+      - ./config:/app/config:ro
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/api/healthz').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+
+  dashboard:
+    image: node:22-slim
+    working_dir: /app
+    command: sh -c "npm install -g pnpm@10 && pnpm --filter @workspace/dashboard run dev"
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      BASE_PATH: "/"
+      NODE_ENV: "development"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  db_data:

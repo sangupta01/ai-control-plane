@@ -47,3 +47,11 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local environment secrets — never commit
+.env
+
+# SQLite database files (local persistent storage goes in data/)
+*.db
+*.db-shm
+*.db-wal
