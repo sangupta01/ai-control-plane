@@ -28,7 +28,7 @@ WORKDIR /app
 RUN npm install -g pnpm@10
 
 COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/artifacts/api-server/dist ./dist
+COPY --from=base /app/artifacts/api-server/dist ./artifacts/api-server/dist
 COPY --from=base /app/artifacts/api-server/node_modules ./artifacts/api-server/node_modules
 COPY --from=base /app/config ./config
 
@@ -41,4 +41,4 @@ ENV NODE_ENV=production
 
 EXPOSE 8080
 
-CMD ["node", "--enable-source-maps", "./dist/index.mjs"]
+CMD ["node", "--enable-source-maps", "./artifacts/api-server/dist/index.mjs"]
