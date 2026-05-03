@@ -1,0 +1,777 @@
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)% docker logs ai-control-plane-dashboard-1 -f
+
+added 1 package in 1s
+
+1 package is looking for funding
+  run `npm fund` for details
+npm notice
+npm notice New major version of npm available! 10.9.7 -> 11.13.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.13.0
+npm notice To update run: npm install -g npm@11.13.0
+npm notice
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +515
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 515, reused 0, downloaded 75, added 35
+Progress: resolved 515, reused 0, downloaded 146, added 66
+Progress: resolved 515, reused 0, downloaded 184, added 81
+Progress: resolved 515, reused 0, downloaded 236, added 104
+Progress: resolved 515, reused 0, downloaded 277, added 118
+Progress: resolved 515, reused 0, downloaded 301, added 129
+Progress: resolved 515, reused 0, downloaded 321, added 136
+Progress: resolved 515, reused 0, downloaded 325, added 139
+Progress: resolved 515, reused 0, downloaded 327, added 139
+Progress: resolved 515, reused 0, downloaded 330, added 139
+Progress: resolved 515, reused 0, downloaded 331, added 139
+Progress: resolved 515, reused 0, downloaded 332, added 139
+Progress: resolved 515, reused 0, downloaded 336, added 143
+Progress: resolved 515, reused 0, downloaded 342, added 143
+Progress: resolved 515, reused 0, downloaded 359, added 151
+Progress: resolved 515, reused 0, downloaded 375, added 155
+Progress: resolved 515, reused 0, downloaded 387, added 160
+Progress: resolved 515, reused 0, downloaded 392, added 163
+Progress: resolved 515, reused 0, downloaded 410, added 169
+Progress: resolved 515, reused 0, downloaded 431, added 176
+Progress: resolved 515, reused 0, downloaded 441, added 180
+Progress: resolved 515, reused 0, downloaded 494, added 201
+Progress: resolved 515, reused 0, downloaded 514, added 256
+Progress: resolved 515, reused 0, downloaded 515, added 325
+Progress: resolved 515, reused 0, downloaded 515, added 329
+Progress: resolved 515, reused 0, downloaded 515, added 337
+Progress: resolved 515, reused 0, downloaded 515, added 359
+Progress: resolved 515, reused 0, downloaded 515, added 378
+Progress: resolved 515, reused 0, downloaded 515, added 386
+Progress: resolved 515, reused 0, downloaded 515, added 410
+Progress: resolved 515, reused 0, downloaded 515, added 428
+Progress: resolved 515, reused 0, downloaded 515, added 432
+Progress: resolved 515, reused 0, downloaded 515, added 438
+Progress: resolved 515, reused 0, downloaded 515, added 462
+Progress: resolved 515, reused 0, downloaded 515, added 510
+Progress: resolved 515, reused 0, downloaded 515, added 513
+Progress: resolved 515, reused 0, downloaded 515, added 514
+Progress: resolved 515, reused 0, downloaded 515, added 515, done
+.../esbuild@0.27.3/node_modules/esbuild postinstall$ node install.js
+.../node_modules/better-sqlite3 install$ prebuild-install || node-gyp rebuild --release
+.../esbuild@0.27.3/node_modules/esbuild postinstall: [esbuild] Failed to find package "@esbuild/linux-arm64" on the file system
+.../esbuild@0.27.3/node_modules/esbuild postinstall: This can happen if you use the "--no-optional" flag. The "optionalDependencies"
+.../esbuild@0.27.3/node_modules/esbuild postinstall: package.json feature is used by esbuild to install the correct binary executable
+.../esbuild@0.27.3/node_modules/esbuild postinstall: for your current platform. This install script will now attempt to work around
+.../esbuild@0.27.3/node_modules/esbuild postinstall: this. If that fails, you need to remove the "--no-optional" flag to use esbuild.
+.../esbuild@0.27.3/node_modules/esbuild postinstall: [esbuild] Trying to install package "@esbuild/linux-arm64" using npm
+.../node_modules/better-sqlite3 install: Done
+.../esbuild@0.27.3/node_modules/esbuild postinstall: Done
+
+devDependencies:
++ prettier 3.8.1
++ typescript 5.9.3
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 42.2s using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 701ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 725ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 700ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 711ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 705ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 717ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 705ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 718ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 710ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 708ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 708ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 716ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 726ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 759ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 744ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 717ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 716ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 775ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 745ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 806ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 723ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 771ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+
+changed 1 package in 772ms
+
+1 package is looking for funding
+  run `npm fund` for details
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+. preinstall$ rm -f package-lock.json yarn.lock
+. preinstall: Done
+Done in 816ms using pnpm v10.33.2
+
+> @workspace/dashboard@0.0.0 dev /app/artifacts/dashboard
+> vite --config vite.config.ts --host 0.0.0.0
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-arm64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-arm64-gnu'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+      at Function._load (node:internal/modules/cjs/loader:1192:37)
+      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at Module.require (node:internal/modules/cjs/loader:1463:12)
+      at require (node:internal/modules/helpers:147:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v22.22.2
+/app/artifacts/dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/dashboard@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Exit status 1
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)%
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)%

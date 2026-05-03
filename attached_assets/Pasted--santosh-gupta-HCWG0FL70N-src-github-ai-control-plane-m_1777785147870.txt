@@ -1,0 +1,111 @@
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)% make demo API_URL=http://localhost:8080/api
+Running AI Control Plane demo...
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+╔══════════════════════════════════════════════════╗
+║   AI Control Plane — Demo Runner                ║
+╚══════════════════════════════════════════════════╝
+
+Checking API health...
+✓ API healthy — v1.0.0, uptime 480.6s
+
+Running all demo scenarios...
+
+✓ normal_request            [passed]
+  Normal chat request with mock-gpt-4
+  trace=556e7915-2fa4-4b...
+  model=mock-gpt-4 | latency=809ms | tokens=52 | cost=$0.002550
+  routing: New session; no affinity established
+  eval_score=0.773 | affinity_hit=no | security_findings=0
+
+⚡ prompt_injection          [blocked]
+  Prompt injection attack — should be blocked
+  trace=8ec1377c-0872-4f...
+  model=mock-gpt-3.5 | latency=1ms | tokens=16 | cost=$0.000000
+  routing: New session; no affinity established
+  blocked: Direct prompt injection attempt
+  eval_score=0.000 | affinity_hit=no | security_findings=1
+
+⚡ pii_detection             [blocked]
+  Request containing PII — SSN detected
+  trace=f4e0473a-79bf-43...
+  model=mock-gpt-4 | latency=1ms | tokens=16 | cost=$0.000000
+  routing: New session; no affinity established
+  blocked: PII detected: SSN
+  eval_score=0.000 | affinity_hit=no | security_findings=1
+
+⚡ secret_leak               [blocked]
+  Request containing a secret API key — should be blocked
+  trace=d21c95b7-5bd8-43...
+  model=mock-claude-3-haiku | latency=0ms | tokens=15 | cost=$0.000000
+  routing: New session; no affinity established
+  blocked: Secret detected: AWS Access Key
+  eval_score=0.000 | affinity_hit=no | security_findings=1
+
+⚡ jailbreak_attempt         [blocked]
+  Jailbreak attempt using DAN mode
+  trace=b773aa04-0577-41...
+  model=mock-gpt-4 | latency=1ms | tokens=13 | cost=$0.000000
+  routing: New session; no affinity established
+  blocked: DAN jailbreak attempt
+  eval_score=0.000 | affinity_hit=no | security_findings=1
+
+✓ expensive_prompt          [passed]
+  Large prompt testing cost tracking and routing
+  trace=45bc38e1-8c66-47...
+  model=mock-claude-3-opus | latency=1354ms | tokens=101 | cost=$0.003255
+  routing: New session; no affinity established
+  eval_score=0.716 | affinity_hit=no | security_findings=0
+
+✓ session_routing_1         [passed]
+  First message in a session — establishes affinity with mock-gpt-4
+  trace=bab3ea53-0784-41...
+  model=mock-gpt-4 | latency=722ms | tokens=47 | cost=$0.002490
+  routing: Session affinity: continuing with mock-gpt-4
+  eval_score=0.774 | affinity_hit=yes | security_findings=0
+
+✓ session_routing_2         [passed]
+  Second message — sticky routing keeps mock-gpt-4 even if gpt-3.5 requested
+  trace=29f55315-75f5-49...
+  model=mock-gpt-4 | latency=650ms | tokens=79 | cost=$0.003360
+  routing: Sticky routing: affinity model mock-gpt-4 cost (0.001750) preferred over switch to mock-gpt-3.5 (0.002195)
+  eval_score=0.699 | affinity_hit=yes | security_findings=0
+
+✓ multi_tenant              [passed]
+  Multi-tenant usage with separate tenant IDs
+  trace=ca08fe5c-b0cc-4e...
+  model=mock-gemini-pro | latency=412ms | tokens=41 | cost=$0.000054
+  routing: New session; no affinity established
+  eval_score=0.707 | affinity_hit=no | security_findings=0
+
+✓ evaluation_scoring        [passed]
+  Request that produces varied evaluation scores
+  trace=4ff218d7-2723-4f...
+  model=mock-gpt-4 | latency=769ms | tokens=47 | cost=$0.002430
+  routing: New session; no affinity established
+  eval_score=0.734 | affinity_hit=no | security_findings=0
+
+─────────────────────────────────────────────────
+Results: 6 passed  4 blocked  0 failed  (4.73s)
+─────────────────────────────────────────────────
+
+Platform Metrics After Demo:
+
+  Total Requests:      108
+  Total Tokens:        3560
+  Total Cost:          $0.105173
+  Avg Latency:         373.4ms
+  Blocked Requests:    54
+  Security Events:     75
+  Avg Eval Score:      0.723
+  Session Affinity:    8.3%
+
+  Requests per model:
+    mock-claude-3-haiku       5
+    mock-claude-3-opus        5
+    mock-gemini-pro           4
+    mock-gpt-3.5              5
+    mock-gpt-4                89
+
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)%

@@ -1,0 +1,101 @@
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)% make docker-test
+Running all 53 tests against Docker API (http://localhost:8080/api)...
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+═══════════════════════════════════════════════
+  AI Control Plane — Test Suite
+═══════════════════════════════════════════════
+
+
+──────────────────────────────────────────────────
+  ✓ Health check returns ok status
+  ✓ Normal chat request succeeds
+  ✓ Invalid request returns 400
+  ✓ Unknown model falls back gracefully
+  ✓ Prompt injection is blocked
+  ✓ SSN in prompt is blocked
+  ✓ AWS key in prompt is blocked
+  ✓ Jailbreak attempt is blocked
+  ✓ Normal email in context is flagged but not blocked
+  ✓ Session affinity — second request gets sticky routing
+  ✓ New session has no affinity
+  ✓ Eval scores are returned for normal requests
+  ✓ Traces endpoint returns records
+  ✓ Get single trace by ID
+  ✓ Get trace by ID — 404 for nonexistent
+  ✓ Metrics summary returns all fields
+  ✓ Security events endpoint returns records
+  ✓ Evals endpoint returns records
+  ✓ Sessions endpoint returns records
+  ✓ Demo run returns results for all scenarios
+  ✓ Demo with specific scenario runs correctly
+  ✓ Multi-tenant requests tracked separately
+──────────────────────────────────────────────────
+
+  Results: 22 passed  0 failed  / 22 total
+
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+══════════════════════════════════════════════════
+  Feature Expansion Tests
+  Policy-as-Code | Cost Insights | Red Team
+══════════════════════════════════════════════════
+
+  Policy-as-Code
+  ────────────────────────────────────────────
+  ✓ GET /v1/policies returns 200 with correct shape
+  ✓ Policies list has expected rule count (>= 15)
+  ✓ Each policy rule has required fields
+  ✓ Policies grouped by expected scanners
+  ✓ POST /v1/policies/reload returns success
+  ✓ Block rule exists for SSN (critical PII)
+  ✓ Policy engine blocks SSN (end-to-end policy enforcement)
+  ✓ Policy engine allows low-severity IP address finding
+
+  Cost Optimization Insights
+  ────────────────────────────────────────────
+  ✓ GET /v1/cost/insights returns 200 with correct shape
+  ✓ Top sessions have required fields
+  ✓ Top tenants have required fields
+  ✓ Top prompts have required fields and excerpt
+  ✓ Routing optimizations have required fields
+  ✓ generated_at is a valid ISO timestamp
+
+  Red Team Mode
+  ────────────────────────────────────────────
+  ✓ GET /v1/redteam/scenarios returns all scenarios
+  ✓ Each scenario has required fields
+  ✓ Scenarios cover all required attack categories
+  ✓ POST /v1/redteam/run returns valid run structure
+  ✓ Red team run blocks all adversarial scenarios
+  ✓ Red team run passes all baseline (benign) scenarios
+  ✓ Red team result has correct per-scenario fields
+  ✓ Red team partial run — single scenario by name
+  ✓ GET /v1/redteam/history returns persisted runs
+  ✓ Red team overall pass rate is 100% (all scenarios correct)
+
+──────────────────────────────────────────────────
+
+  Results: 24 passed  0 failed  / 24 total
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+══════════════════════════════════════════════════
+  AI Incident Replay Tests
+══════════════════════════════════════════════════
+
+  Seed trace_id: 6ac04b49-83e5-4c...
+
+  ✓ Replay endpoint returns 200
+  ✓ Replay returns original_trace, replay_trace and diff
+  ✓ Replay creates a new trace in storage
+  ✓ Replay trace links back to original via replay_of_trace_id
+  ✓ Replay diff has all required fields
+  ✓ Replay with override_model uses specified model
+  ✓ Replay of nonexistent trace returns 404
+
+──────────────────────────────────────────────────
+
+  Results: 7 passed  0 failed  / 7 total
+
+All 53 tests PASSED against Docker
+[santosh.gupta@HCWG0FL70N] src/github/ai-control-plane[main]  (ktx:colima)%
