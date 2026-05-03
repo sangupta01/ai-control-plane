@@ -38,10 +38,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center shrink-0">
             <Cpu className="w-4 h-4 text-white" />
           </div>
-          <div>
-            <div className="text-xs font-bold text-foreground leading-tight tracking-wide uppercase">AI Control</div>
-            <div className="text-[10px] text-muted-foreground leading-tight">Plane</div>
-          </div>
+          <span className="text-sm font-semibold text-foreground tracking-tight leading-none">
+            AI Control Plane
+          </span>
         </div>
 
         {/* Nav */}
