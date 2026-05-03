@@ -13,6 +13,9 @@ API_URL   ?= http://localhost:80/api
 LOCAL_API  ?= http://localhost:8080/api
 DELAY_MS  ?= 200
 
+# Auto-detect docker compose v2 plugin vs legacy docker-compose v1
+DOCKER_COMPOSE := $(if $(shell docker compose version 2>/dev/null),docker compose,docker-compose)
+
 # -------------------------------------------------------------------
 # Setup
 # -------------------------------------------------------------------
@@ -235,7 +238,7 @@ docker-build:
 
 # Start all services (API + dashboard) via docker compose
 docker-up:
-        docker compose up -d
+        $(DOCKER_COMPOSE) up -d
         @echo ""
         @echo "Services starting..."
         @echo "  API server:  http://localhost:8080/api/healthz"
@@ -245,11 +248,11 @@ docker-up:
 
 # Stop all services and remove containers
 docker-down:
-        docker compose down
+        $(DOCKER_COMPOSE) down
 
 # Follow live logs (Ctrl+C to exit)
 docker-logs:
-        docker compose logs -f
+        $(DOCKER_COMPOSE) logs -f
 
 # Run all 53 tests against the running Docker stack
 docker-test:

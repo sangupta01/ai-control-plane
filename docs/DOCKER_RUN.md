@@ -9,14 +9,19 @@ Run the full AI Control Plane stack locally using Docker Compose. This is the **
 | Tool | Version | Install |
 |---|---|---|
 | Docker | 24+ | [docker.com/get-started](https://www.docker.com/get-started) |
-| Docker Compose | v2 (bundled) | Included with Docker Desktop on Mac/Linux |
+| Docker Compose | v1 or v2 | Bundled with Docker Desktop; or `brew install docker-compose` |
 | make | any | Pre-installed on Mac/Linux |
 
 Verify:
 ```bash
-docker --version          # Docker version 24+
-docker compose version    # Docker Compose version v2+
+docker --version
+
+# Either of these must work:
+docker compose version    # v2 plugin (Docker Desktop 3.6+)
+docker-compose --version  # v1 standalone
 ```
+
+> **Compatibility:** The Makefile auto-detects whether `docker compose` (v2 plugin) or `docker-compose` (v1 standalone) is available and uses whichever one is present.
 
 ---
 
