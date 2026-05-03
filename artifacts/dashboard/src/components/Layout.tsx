@@ -12,6 +12,7 @@ import {
   Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { WorkloadStatus } from "./WorkloadStatus";
 
 const NAV_ITEMS = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
@@ -66,9 +67,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
+        {/* Live workload status widget */}
+        <WorkloadStatus />
+
         {/* Footer */}
         <div className="px-4 py-3 border-t border-sidebar-border">
-          <div className="text-[10px] text-muted-foreground font-mono">v1.1.0 — mock providers</div>
+          <div className="text-[10px] text-muted-foreground font-mono">v1.2.0 — mock providers</div>
         </div>
       </aside>
 

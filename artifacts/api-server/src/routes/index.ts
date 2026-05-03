@@ -11,6 +11,7 @@ import policiesRouter from "./v1/policies.js";
 import costRouter from "./v1/cost.js";
 import redteamRouter from "./v1/redteam.js";
 import replayRouter from "./v1/replay.js";
+import workloadRouter from "./v1/workload.js";
 
 const router: IRouter = Router();
 
@@ -26,5 +27,6 @@ router.use(demoRouter);
 router.use(policiesRouter);
 router.use(costRouter);
 router.use(redteamRouter);
+router.use(workloadRouter);
 
 export default router;
