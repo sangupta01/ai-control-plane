@@ -1,0 +1,9 @@
+# Screenshot placeholders for hackathon submission
+# 
+# Add the following screenshots to this directory:
+#   overview.png        — Overview dashboard with metrics cards and trace list
+#   session-replay.png  — Incident replay UI showing side-by-side eval diff
+#   security-events.png — Security Events page showing all 5 scanner classes
+#
+# To capture screenshots from the live Replit app:
+#   https://autonomous-executor--santoshgupta14.replit.app/

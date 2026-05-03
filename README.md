@@ -1,7 +1,80 @@
 # AI Control Plane
 
-A production-grade **AI Gateway + Full LLM Observability Platform**.  
-Every LLM request runs through unified routing, security scanning, policy enforcement, and heuristic evaluation — with a full-featured React dashboard showing live traces, security events, session affinity, cost insights, and AI incident replay.
+> **Production-grade AI Gateway + Full LLM Observability Platform**  
+> Every LLM request flows through unified routing, security scanning, policy enforcement, eval scoring, cost tracking, and incident replay — with a dark-navy React dashboard showing it all live.
+
+---
+
+## Hackathon Demo
+
+**Live app (no login, no API keys):**  
+🔗 **https://autonomous-executor--santoshgupta14.replit.app/**
+
+> Mock mode is the default — open the link, click "Demo Runner", and the full system runs in 5 seconds.
+
+### 30-Second Value Prop
+
+Most teams bolt LLM calls directly into application code with no visibility, no guardrails, and no recovery path when something goes wrong. **AI Control Plane** is the missing infrastructure layer — a self-contained gateway that gives every LLM request security enforcement, policy control, cost tracking, heuristic evaluation, and full replay capability, all in one place.
+
+### 5-Step Demo Flow
+
+| Step | Where | What you see |
+|------|--------|-------------|
+| 1 | **Demo Runner** → "Run Full Demo" | 11 scenarios execute: 7 pass, 4 blocked (injection, PII, secret, jailbreak, data exfil) |
+| 2 | **Security** | 5 scanner classes with live event counts — prompt injection highest, data exfil lowest |
+| 3 | **Traces** → click "Replay" on any trace | Replay against a cheaper model; side-by-side eval diff appears |
+| 4 | **Cost Insights** | Routing optimization suggestions: GPT-4 → GPT-3.5 saves ~80% |
+| 5 | **Red Team** → "Run Red Team" | 10 adversarial attacks, 100% block rate |
+
+> **No API keys required — mock mode works by default.**  
+> To use real providers: copy `.env.example` → `.env`, add your keys, set `PROVIDER_MODE=real`.
+
+---
+
+## Why This Matters
+
+AI applications are moving to production faster than the tooling to govern them.  
+Teams shipping LLM-powered products need:
+
+- **Security** — stop prompt injections, PII leaks, secret exposure, and jailbreaks before they reach the model
+- **Governance** — policy-as-code rules that security engineers control, not developers
+- **Cost control** — per-request, per-session, and per-tenant cost attribution with routing optimization suggestions
+- **Evaluation** — heuristic quality scoring on every response (relevance, safety, hallucination risk, groundedness)
+- **Observability** — full trace history with tags, latency, token counts, and model used
+- **Replay** — re-run any historical incident through a different model with side-by-side comparison
+
+AI Control Plane is the **gateway layer** that provides all of this for production agent systems, without requiring changes to application code beyond pointing at `/api/v1/chat`.
+
+---
+
+## Judging Highlights
+
+| Capability | What it does |
+|---|---|
+| **Unified LLM Gateway** | Single `/api/v1/chat` endpoint across 5 models; swap providers without changing app code |
+| **Session Sticky Routing** | Affinity-based model routing; switches only when cost delta exceeds 1.5× threshold |
+| **Security Guardrails** | 5 scanners: PII, secrets, prompt injection, jailbreak, data exfiltration — runs on every request |
+| **Policy-as-Code** | 18 YAML rules, hot-reloadable via API with zero downtime |
+| **Cost / Token Insights** | Top sessions, tenants, prompts ranked by spend; automated routing recommendations |
+| **Eval Scoring** | Heuristic scoring on every response: relevance, safety, hallucination risk, groundedness |
+| **AI Incident Replay** | Re-run any trace with an alternate model; shows eval diff and RESPONSE CHANGED badge |
+| **Red Team Testing** | 10 adversarial scenarios; pass rate < 100% can gate CI deployments |
+| **React Dashboard** | Dark-navy UI with traces, sessions, security events, evals, cost, policies, demo runner |
+
+**53 automated tests across 3 suites — all passing.**
+
+---
+
+## Screenshots
+
+### Overview Dashboard
+![Overview](docs/screenshots/overview.png)
+
+### AI Incident Replay
+![Session Replay](docs/screenshots/session-replay.png)
+
+### Security Events
+![Security Events](docs/screenshots/security-events.png)
 
 ---
 
@@ -18,6 +91,17 @@ Every LLM request runs through unified routing, security scanning, policy enforc
 | **Cost Insights** | Top sessions, tenants, prompts; routing optimization suggestions |
 | **Red Team Testing** | Adversarial scenario runner with pass/fail tracking |
 | **Full Observability Dashboard** | Dark-navy React UI with traces, sessions, evals, security events |
+
+---
+
+## Quick Verification
+
+```bash
+make install      # install all workspace dependencies
+make dev          # start API server
+make test-all     # run all 53 tests (22 + 24 + 7)
+make demo         # run 11 demo scenarios
+```
 
 ---
 
@@ -180,7 +264,8 @@ Browser → Dashboard (React + Vite)
 Detailed diagrams: [docs/ARCHITECTURE_DIAGRAM.md](docs/ARCHITECTURE_DIAGRAM.md)  
 Codebase walkthrough: [docs/CODEBASE_GUIDE.md](docs/CODEBASE_GUIDE.md)  
 Demo script: [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)  
-Local run guide: [docs/LOCAL_RUN.md](docs/LOCAL_RUN.md)
+Local run guide: [docs/LOCAL_RUN.md](docs/LOCAL_RUN.md)  
+Hackathon submission: [docs/SUBMISSION.md](docs/SUBMISSION.md)
 
 ---
 
