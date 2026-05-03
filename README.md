@@ -1,41 +1,35 @@
 # AI Control Plane
 
-> **Production-grade AI Gateway + Full LLM Observability Platform**  
-> Every LLM request flows through unified routing, security scanning, policy enforcement, eval scoring, cost tracking, and incident replay — with a dark-navy React dashboard showing it all live.
+## 🚀 What is this (30 seconds)
+
+**AI Control Plane** is the infrastructure layer that sits between your application and every LLM you call.
+
+Instead of calling OpenAI or Anthropic directly, you call one endpoint — `/api/v1/chat` — and the platform handles everything: blocking security threats before they reach the model, enforcing governance policies in YAML, routing to the right model by session and cost, scoring every response for quality, and storing every trace so you can replay any incident with a different model.
+
+It ships with a full dark-mode React dashboard — traces, security events, cost attribution, eval scores, policies, and a one-click demo runner — all running on mock providers with **no API keys required**.
 
 ---
 
-## Hackathon Demo
+## 🎬 Live Demo
 
-**Live app (no login, no API keys):**  
 🔗 **https://autonomous-executor--santoshgupta14.replit.app/**
 
-> Mock mode is the default — open the link, click "Demo Runner", and the full system runs in 5 seconds.
+> No login. No API keys. Opens immediately. Mock mode is the default.
 
-### Judge Path (under 2 minutes)
+---
 
-1. Open the live app → **Demo Runner** → click **Run Full Demo** — watch 11 scenarios execute (6 pass, 5 blocked)
-2. Click **Traces** → click **Replay** on any row → change the model → see the eval diff
-3. Click **Cost Insights** → review routing optimization suggestions
-4. Click **Security** → see 5 scanner classes with distinct live event counts
-5. Click **Red Team** → click **Run Red Team** → 10 adversarial attacks, 100% block rate
+## 🧪 Try this in 2 minutes
 
-### 30-Second Value Prop
-
-Most teams bolt LLM calls directly into application code with no visibility, no guardrails, and no recovery path when something goes wrong. **AI Control Plane** is the missing infrastructure layer — a self-contained gateway that gives every LLM request security enforcement, policy control, cost tracking, heuristic evaluation, and full replay capability, all in one place.
-
-### 5-Step Demo Flow
-
-| Step | Where | What you see |
-|------|--------|-------------|
-| 1 | **Demo Runner** → "Run Full Demo" | 11 scenarios execute: 6 pass, 5 blocked (injection, PII, secret, jailbreak, data exfil) |
-| 2 | **Security** | 5 scanner classes with live event counts — prompt injection highest, data exfil lowest |
-| 3 | **Traces** → click "Replay" on any trace | Replay against a cheaper model; side-by-side eval diff appears |
-| 4 | **Cost Insights** | Routing optimization suggestions: GPT-4 → GPT-3.5 saves ~80% |
+| Step | Where to click | What you'll see |
+|------|---------------|-----------------|
+| 1 | **Demo Runner** → "Run Full Demo" | 11 scenarios run in ~5 s — 6 pass, 5 blocked (injection, PII, secret, jailbreak, data exfil) |
+| 2 | **Traces** → click "Replay" on any row | Pick a cheaper model; a side-by-side eval diff appears with RESPONSE CHANGED / MODEL CHANGED badges |
+| 3 | **Security** | 5 scanner classes each with a distinct event count — injection highest, data exfil lowest |
+| 4 | **Cost Insights** | Automated routing suggestions — GPT-4 → GPT-3.5 saves ~80% |
 | 5 | **Red Team** → "Run Red Team" | 10 adversarial attacks, 100% block rate |
 
 > **No API keys required — mock mode works by default.**  
-> To use real providers: copy `.env.example` → `.env`, add your keys, set `PROVIDER_MODE=real`.
+> Real providers: copy `.env.example` → `.env`, add keys, set `PROVIDER_MODE=real`.
 
 ---
 
@@ -76,12 +70,18 @@ AI Control Plane is the **gateway layer** that provides all of this for producti
 ## Screenshots
 
 ### Overview Dashboard
+*Live metrics — total requests, tokens, cost, latency, security events, eval scores, and per-model/per-tenant breakdowns.*
+
 ![Overview](docs/screenshots/overview.jpg)
 
 ### Trace Explorer with Replay
+*Every LLM request is stored as a full trace. Tags show BLOCKED, PII DETECTED, STICKY ROUTING, HIGH COST, REPLAYED. Click Replay on any row to re-run it against a different model and see the eval diff.*
+
 ![Session Replay](docs/screenshots/session-replay.jpg)
 
 ### Security Events — 5 Scanner Classes
+*Real-time event feed across all 5 scanners: Prompt Injection, Jailbreak Detection, PII Detection, Secret Detection, and Data Exfiltration — each with distinct event counts showing natural traffic distribution.*
+
 ![Security Events](docs/screenshots/security-events.jpg)
 
 ---
